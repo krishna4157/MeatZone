@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "MeatZone",
+    "slug": "MeatZone",
+    "version": "1.0.0",
+    "splash": {
+      "image": "./src/assets/images/acslogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#286ef0"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "MeatZone"
+}
