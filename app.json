@@ -4,9 +4,9 @@
     "slug": "MeatZone",
     "version": "1.0.0",
     "splash": {
-      "image": "./src/assets/images/acslogo.png",
+      "image": "./src/assets/images/splash.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#286ef0"
+      "backgroundColor": "#ffe9c9"
     },
     "assetBundlePatterns": [
       "**/*"

@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
 import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
+import { Image } from 'react-native';
 // import Flag from 'react-native-flags';
 
 
@@ -15,24 +16,25 @@ class LoginScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        isPasswordVisible : false,
-        modalVisible : false
+      cca2 : 'IN',
+      callingCode: '+91',
+      modalVisible: false
     }
   }
 
   componentDidMount = async () => {
-   
+
   }
 
 
-  getCorrectPassword = async() => {
-    const {navigation}= this.props;
+  getCorrectPassword = async () => {
+    const { navigation } = this.props;
     // this.setState({
     //   statusColor: 'blue'
     // });
     // alert('hello');
     // navigation.navigate("KycScreen");
-    
+
   }
 
 
@@ -46,17 +48,17 @@ class LoginScreen extends React.Component {
     // this.StartBackgroundColorAnimation()
 
     setTimeout(() => {
-    
+
       this.setState({
-        isSuccess:2
+        isSuccess: 2
       })
     }, 10000);
-    
+
 
 
   }
 
-  
+
 
 
   onSubmit = (values) => {
@@ -64,35 +66,47 @@ class LoginScreen extends React.Component {
   }
 
 
-    
+
   checkValues = async (values) => {
-   try {
-      const user  = {
-        userID : values.userID,
-        loginPassword: values.password 
+    try {
+      const user = {
+        userID: values.userID,
+        loginPassword: values.password
       };
-    //   const res = await api.post("/login",user);
-    //   console.log(res.data);
       this.getCorrectPassword();
-    
-    } catch(e) {
+
+    } catch (e) {
       console.log(e);
       this.getWrongPassword(e);
     }
   }
-    
-      
-    render(){
-        const {  navigation } = this.props;
-        const  { modalVisible} = this.state;
-      return (
-       
-        <Formik
-        initialValues={{ userID: '', password: '' ,
-      }}
+
+  triggerModal = () => {
+    this.setState({
+      modalVisible : true
+    });
+  }
+
+  changeCallCodeAndFlag = (cca2,cc) => {
+    this.setState({
+      callingCode : '+'+cc,
+      cca2 : cca2
+    });
+  }
+
+
+  render() {
+    const { navigation } = this.props;
+    const { modalVisible, callingCode, cca2 } = this.state;
+    return (
+
+      <Formik
+        initialValues={{
+          userID: '', password: '',
+        }}
         validationSchema={Yup.object({
           userID: Yup.string()
-             .required('enter username'),
+            .required('enter username'),
           password: Yup.string()
             .required('enter password'),
         })}
@@ -102,97 +116,74 @@ class LoginScreen extends React.Component {
             formikActions.setSubmitting(false);
           }, 500);
         }}>
-        {props =>{
-           const {
-             setFieldValue,setValues
+        {props => {
+          const {
+            setFieldValue, setValues
           } = props;
-          const getPhoneValue=(value,userID)=>{
+          const getPhoneValue = (value, userID) => {
             setFieldValue(
-                  'userID',value+userID)
+              'userID', value + userID)
           }
-        
+
           return (
 
-            <View style={{flex:1,flexDirection:'column',backgroundColor:'#ffe9c9',padding:20}}>
-              <View style={{flex:4,backgroundColor:'grey',backgroundColor:'#ffe9c9'}} >
-              
+            <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#ffe9c9', padding: 20,justifyContent:'space-between' }}>
+              <View style={{ flex: 4, backgroundColor: 'grey', backgroundColor: '#ffe9c9' }} >
+
               </View>
-              <View style={{flex:3,backgroundColor:'#ffe9c9',flexDirection:'row'}} >
-              <View style={{flex:2,flexDirection:'column'}}>
-              <Text style={{fontWeight:'bold',fontSize:25}}>
-                Enter Mobile Number
-              </Text>
-              <Text style={{marginBottom:10}}>
-                We will send you an one one time password on this mobile number.
-              </Text>
-              <PhNumberInput 
-                      // deviceLocation={deviceLocation}
-                      callingCode={'+91'}
-                      getPhoneValue={getPhoneValue}  />
-                     
-
-
-                     <CountryPicker
-                     with
+              <View style={{ flex: 2, backgroundColor: '#ffe9c9', flexDirection: 'row' }} >
+                <View style={{ flex: 2, flexDirection: 'column',padding:10 }}>
+                  <Text style={{ fontWeight: 'bold', fontSize: 25 }}>
+                    Enter Mobile Number
+                  </Text>
+                  <Text style={{ marginBottom: 10 }}>
+                    We will send you an one one time password on this mobile number.
+                  </Text>
+                  <PhNumberInput
+                    triggerModal={this.triggerModal}
+                    callingCode={callingCode}
+                    cca2={cca2}
+                    getPhoneValue={getPhoneValue}
+                    modalVisible={modalVisible} />
+                  <CountryPicker
                     withCloseButton={true}
                     withFilter={true}
                     filterProps={{
-                        style:{
+                      style: {
                         paddingVertical: 20
-                        }
+                      }
                     }}
                     withFlag={true}
-                        visible={true}
-                        onSelect={value => {
-                        // this.selectCountry(value)
-                        // onCountryChange();
-                        }}
-                        // cca2={this.state.cca2}
-                        withCountryNameButton={false}
-                        placeholder=''
-                        onClose={() => {
-                        // this.setState({
-                        //     modalVisible: false,
-                        // })
-                        }}
-                        withCallingCode={true}
-                        withEmoji={true}
-                    />
-                       
-              <TouchableOpacity style={{borderRadius:15,width:'95%',backgroundColor:'red',padding:15,alignSelf:'center'}}>
-                <Text style={{color:'white',textAlign:'center'}}>Get OTP</Text>
-              </TouchableOpacity>
+                    visible={modalVisible}
+                    onSelect={value => {
+                      this.changeCallCodeAndFlag(value.cca2,value.callingCode);
+                    }}
+                    withCountryNameButton={false}
+                    placeholder=''
+                    onClose={() => {
+                      this.setState({
+                        modalVisible: false,
+                      })
+                    }}
+                    withCallingCode={true}
+                    withEmoji={true}
+                  />
+                  <Image style={{position:'absolute',zIndex:-10,height:800,width:800,marginLeft:-200,marginTop:-250,opacity:0.5}}  resizeMode={'contain'} source={require('../assets/images/chicken.jpeg')} />
+
+                  <TouchableOpacity onPress={() => navigation.navigate('OTPPage')} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center' }}>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>Get OTP</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-              </View>
-              </View>
-              
-        )}}
+            </View>
+
+          )
+        }}
       </Formik>
-                  );
+    );
 
-    }
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      backgroundColor: '#fff',
-
-  },
-  contentContainer: {
-      paddingTop: 10,
-  },
-  error: {
-    color: 'red',
-    fontSize: 10,
-  },
-  left : {
-    paddingLeft:10
-  },
-  text: {
-      fontSize: 15, lineHeight: 23, padding: 10
-  },
-});
 
 
 export default LoginScreen;

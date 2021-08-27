@@ -1,40 +1,25 @@
-// import { Entypo, Feather, Foundation, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-// import { createBrowserApp } from '@react-navigation/web';
-// import { Platform } from "react-native";
-// import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-// import { createMaterialBottomTabNavigator as createBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-// import { createStackNavigator } from 'react-navigation-stack';
-// import InitialScreen from '../containers/InitialScreen';
-
-// const isWeb = Platform.OS === 'web';
-// let app;
-// app = {} || app;
-// export const backgroundColor = '#0d47a1'
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginPage from './LoginPage';
+import IntroPage from './IntroPage';
+import OtpPage from './OtpPage';
+import SelectLocationPage from './SelectLocationPage';
 
 
+const Stack = createNativeStackNavigator();
 
-// const AuthStack = createStackNavigator({
-//     InitialScreen: {
-//         screen : InitialScreen,
-//         navigationOptions: {
-//             title: 'Home',
-//             header: null //this will hide the header
-//           },
-//     },
-//     KycScreen :  {
-//         screen : InitialScreen,
-//     navigationOptions: {
-//         title: "Add KYC", //this will hide the header
-//       },
-//     }
-// });
-
-// const AppRoutes = createSwitchNavigator({
-//     [`demoApp/Auth`]: AuthStack,
-// });
-
-
-
-// const container = isWeb ? createBrowserApp(AppRoutes): createAppContainer(AppRoutes);   
-
-// export default container;
+export default function Container() {
+    return (
+        <NavigationContainer >
+            <Stack.Navigator screenOptions={{
+                headerShown: false,
+            }} >
+                <Stack.Screen name="LoginPage" component={LoginPage} />
+                <Stack.Screen name="OTPPage" component={OtpPage} />
+                <Stack.Screen name="IntroPage" component={IntroPage} />
+                <Stack.Screen name="LocationPage" component={SelectLocationPage} />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}

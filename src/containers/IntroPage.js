@@ -2,10 +2,11 @@ import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import IntroScreen from '../components/IntroScreen';
 import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
 
-class InitialScreen extends React.Component {
+class IntroPage extends React.Component {
    state={
 
    };
@@ -19,8 +20,7 @@ class InitialScreen extends React.Component {
     render() {
       const {navigation} = this.props;
       return (
-        // <LoginScreen navigation={navigation} />
-        <OTPScreen navigation={navigation} />
+        <IntroScreen navigation={navigation} />
       );
     }
   }
@@ -28,9 +28,9 @@ class InitialScreen extends React.Component {
 
 
 
-export default InitialScreen;
+export default IntroPage;
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
