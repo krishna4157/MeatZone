@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
+import Toast from 'react-native-toast-message';
 
 class LoginPage extends React.Component {
    state={
@@ -13,13 +14,14 @@ class LoginPage extends React.Component {
 
    
    async componentDidMount() {
-     
+    
    }
 
     render() {
-      const {navigation} = this.props;
+      const {navigation,route} = this.props;
+      
       return (
-        <LoginScreen navigation={navigation} />
+        <LoginScreen route={route} navigation={navigation} />
       );
     }
   }

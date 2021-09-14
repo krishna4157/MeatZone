@@ -1,12 +1,17 @@
 {
   "expo": {
     "name": "MeatZone",
+    "icon": "./src/assets/AppIcons/web_hi_res_512.png",
     "slug": "MeatZone",
     "version": "1.0.0",
     "splash": {
-      "image": "./src/assets/images/splash.jpg",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffe9c9"
+    },
+    "android": {
+      "package": "com.wdm.meatzone",
+      "versionCode": 1
     },
     "assetBundlePatterns": [
       "**/*"

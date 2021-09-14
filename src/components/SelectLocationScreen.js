@@ -20,7 +20,7 @@ return (
         </View>
       </View>
       <View style={{ flex: 2,padding:20,flexDirection:'column' }}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ width: '100%', borderColor:'red',borderWidth:2, padding: 15, borderRadius: 15,flexDirection:'row',justifyContent:'center' }}>
+      <TouchableOpacity onPress={() => navigation.navigate('AppDrawer')} style={{ width: '100%', borderColor:'red',borderWidth:2, padding: 15, borderRadius: 15,flexDirection:'row',justifyContent:'center' }}>
                   <AntDesign name="check" size={25}  />
                   <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'black',marginLeft:10 }}>Use Current Location</Text>
     </TouchableOpacity>

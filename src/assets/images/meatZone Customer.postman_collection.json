@@ -1,0 +1,702 @@
+{
+	"info": {
+		"_postman_id": "e2a1ec63-10c7-41a8-8599-b16de864e54d",
+		"name": "meatZone Customer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "otp sent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phone\":\"8347736465\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/sendOtp",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"sendOtp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "otp verify",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\":1,\r\n    \"otp\":7847\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/verifyOtp",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"verifyOtp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTNmMDg4NzkzZTJjNDgwOGY2MDVhNGRkMjZlYzIwY2NhN2FhNjQwYjI2MzA2YmMxNzYxNDMyYzgxNjFlMzNjOTY0ZWVmOGQ0NjQ1NDY0YTMiLCJpYXQiOjE2MzA0ODg5MDkuMDAxNjk3LCJuYmYiOjE2MzA0ODg5MDkuMDAxNzAxLCJleHAiOjE2NjIwMjQ5MDguOTk1NjA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AsX2tT4eTH7nvbkeDjGRq1oJTeZnUD8xMFAnc7XZ3BpyUfTibxcZckEx6anigUx3SAMi7tT-UjeSijYYhj3UZOwbqQhjGFZW-ugkmSxxmI3SKIrex5032a0XzpvRU6mT8zfT-ztYuWAG3EBSfiZwN1Bn-Dv973WUib-f6EmCDtJwxGsomTaaVYwZN0ChPAOwGn0EMzXwZPzG6mM_hHJbHEH5WPe9r0ITtRJB0J3bKzV534CYLMKh9DboLYeSz-J7rFGoxWYPpgsnqx_2ZyxO4i0VL1KXGVzScI-3Et5icmOEvd1BVuN4WYlcET_U1ic2ffZgtDpyif91GdwaMCMqINcd6vPxgYUUzgC2Q4JSLyb3hlbiIHTvDeBSbzVXWGoFxIyBR0Ma9jQUzdpfpgcmXYmrh8QUSzT4w24M5UwvvWeNqC8Xq1KM2sFASuUCFhq9kinC1M0FyYnMssWYzEag-HzYRg0euWinkiH6TLPV1RfG3FADDopyAX5qw7wnU2s0_EldIwxfshE1cVBlF1WBByVpLWHbO3WrFkGC6JZapZWDeHyMIYd1WvqJZWS44gzpHfk9Y-sRKvhYdnJCkWaiU_pEPfAWgSjJdTieZCmf44XhZprpPYcSs2-cLxf0O994zi2XwCW-_lYKvKrCwfZ_riLk-rBxWLo5BFctdqRQOn0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/myProfile",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"myProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "edit profile",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzQ4NmVkOGM0NDEzZmM1NWI3ODA3YTNjZTBiMThmNDJjMDYzMDZmOWVkZWViY2RiYTY1ZjNkMWYyOGNkMDU0MzAwMTc0NmUxODQ1NTBlYmEiLCJpYXQiOjE2MzAxMzY5NzcuOTM4NzM5LCJuYmYiOjE2MzAxMzY5NzcuOTM4NzQ5LCJleHAiOjE2NjE2NzI5NzcuOTI1OTQsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.SNexEjC6zsjvn-nEM2jMX0UUV8Se9y6hI-TXotmaB7Jnv_L5iyteHv9SwU0uwZCD0Dy2_kY9oCepwA2Uc0qwkQ_89SxYknkhQhy3ANtLBlNdmgvMLja-R_sQ0zM7WtFvw4UBhDE2uqkCFs8SCWQF2sEqmX6VG852qL_2BxUQoOGmSNAf5AsbIOQx08Xv7IngvFO0QZbYxIq3-ry-oX32FzFXDx79P2F6hf34_QNWQ4tzr0USWS9QxSoh23tG0xFp_oR103tw4NiO2u0eCSg1SLd3ox8iiVlYLX4hFtjso5nLf-2REbhpDzw9_5_2i8RdDskzXXCMdSYXCQsjujznDd2bHOgTDYZy4PwPyCvt0r1o2nKnOt_sHZhPbdFJH6LDewft-RR7XUPgSiA144gAgNfFWGjN3yTBgrT3nVBNIEgmlL7phqZDI3EVe9n-RQpsutE7BydwGDAuIm8ZyFy5-Vda22CbW6xBhkBFy7VmBhBrEOv-kasIdHAthUM7588-AwoEsYHFlxLcwdVLQkHHB2cVqmckRSLoZzJtQbaoQ9YnylfIxgPLMv0xlcfIucK0TuVBWdhXudYHB88d2MERuSsm1pQ98_uDKo_T5fAqGX2G-bJOPyjHGxF9yErH4fev8Yxr1Ioo_EllbtR1pSyS-3aGnMiFj3OLJhaO1i_uq4k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"HT\",\r\n    \"email\":\"hetathakkar10@gmail.com\",\r\n    \"phone\":\"8347736465\",\r\n    \"location\":\"Airport Ring Road, Odhav Vandana II, Bhuj, Gujarat\",\r\n    \"latitude\":\"23.271342200671988 \",\r\n    \"longitude\":\"69.66265632536503\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/editProfile",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"editProfile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/categories",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYzQ4NmVkOGM0NDEzZmM1NWI3ODA3YTNjZTBiMThmNDJjMDYzMDZmOWVkZWViY2RiYTY1ZjNkMWYyOGNkMDU0MzAwMTc0NmUxODQ1NTBlYmEiLCJpYXQiOjE2MzAxMzY5NzcuOTM4NzM5LCJuYmYiOjE2MzAxMzY5NzcuOTM4NzQ5LCJleHAiOjE2NjE2NzI5NzcuOTI1OTQsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.SNexEjC6zsjvn-nEM2jMX0UUV8Se9y6hI-TXotmaB7Jnv_L5iyteHv9SwU0uwZCD0Dy2_kY9oCepwA2Uc0qwkQ_89SxYknkhQhy3ANtLBlNdmgvMLja-R_sQ0zM7WtFvw4UBhDE2uqkCFs8SCWQF2sEqmX6VG852qL_2BxUQoOGmSNAf5AsbIOQx08Xv7IngvFO0QZbYxIq3-ry-oX32FzFXDx79P2F6hf34_QNWQ4tzr0USWS9QxSoh23tG0xFp_oR103tw4NiO2u0eCSg1SLd3ox8iiVlYLX4hFtjso5nLf-2REbhpDzw9_5_2i8RdDskzXXCMdSYXCQsjujznDd2bHOgTDYZy4PwPyCvt0r1o2nKnOt_sHZhPbdFJH6LDewft-RR7XUPgSiA144gAgNfFWGjN3yTBgrT3nVBNIEgmlL7phqZDI3EVe9n-RQpsutE7BydwGDAuIm8ZyFy5-Vda22CbW6xBhkBFy7VmBhBrEOv-kasIdHAthUM7588-AwoEsYHFlxLcwdVLQkHHB2cVqmckRSLoZzJtQbaoQ9YnylfIxgPLMv0xlcfIucK0TuVBWdhXudYHB88d2MERuSsm1pQ98_uDKo_T5fAqGX2G-bJOPyjHGxF9yErH4fev8Yxr1Ioo_EllbtR1pSyS-3aGnMiFj3OLJhaO1i_uq4k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/logout",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "items by categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/itemsByCategory/1",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"itemsByCategory",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search restau, food item and category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/search/chic",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"search",
+						"chic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart clear",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/cartClear",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"cartClear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add fav",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"food_id\":1\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/addFav",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"addFav"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "my fav",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/favourites",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"favourites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete fav",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/deleteFav/2",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"deleteFav",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view faqs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/faqs",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"faqs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all restaurants",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/allRestaurants",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"allRestaurants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTNmMDg4NzkzZTJjNDgwOGY2MDVhNGRkMjZlYzIwY2NhN2FhNjQwYjI2MzA2YmMxNzYxNDMyYzgxNjFlMzNjOTY0ZWVmOGQ0NjQ1NDY0YTMiLCJpYXQiOjE2MzA0ODg5MDkuMDAxNjk3LCJuYmYiOjE2MzA0ODg5MDkuMDAxNzAxLCJleHAiOjE2NjIwMjQ5MDguOTk1NjA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AsX2tT4eTH7nvbkeDjGRq1oJTeZnUD8xMFAnc7XZ3BpyUfTibxcZckEx6anigUx3SAMi7tT-UjeSijYYhj3UZOwbqQhjGFZW-ugkmSxxmI3SKIrex5032a0XzpvRU6mT8zfT-ztYuWAG3EBSfiZwN1Bn-Dv973WUib-f6EmCDtJwxGsomTaaVYwZN0ChPAOwGn0EMzXwZPzG6mM_hHJbHEH5WPe9r0ITtRJB0J3bKzV534CYLMKh9DboLYeSz-J7rFGoxWYPpgsnqx_2ZyxO4i0VL1KXGVzScI-3Et5icmOEvd1BVuN4WYlcET_U1ic2ffZgtDpyif91GdwaMCMqINcd6vPxgYUUzgC2Q4JSLyb3hlbiIHTvDeBSbzVXWGoFxIyBR0Ma9jQUzdpfpgcmXYmrh8QUSzT4w24M5UwvvWeNqC8Xq1KM2sFASuUCFhq9kinC1M0FyYnMssWYzEag-HzYRg0euWinkiH6TLPV1RfG3FADDopyAX5qw7wnU2s0_EldIwxfshE1cVBlF1WBByVpLWHbO3WrFkGC6JZapZWDeHyMIYd1WvqJZWS44gzpHfk9Y-sRKvhYdnJCkWaiU_pEPfAWgSjJdTieZCmf44XhZprpPYcSs2-cLxf0O994zi2XwCW-_lYKvKrCwfZ_riLk-rBxWLo5BFctdqRQOn0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"product_id\":1,\r\n    \"quantity\":4\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/addToCart",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"addToCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "view cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTNmMDg4NzkzZTJjNDgwOGY2MDVhNGRkMjZlYzIwY2NhN2FhNjQwYjI2MzA2YmMxNzYxNDMyYzgxNjFlMzNjOTY0ZWVmOGQ0NjQ1NDY0YTMiLCJpYXQiOjE2MzA0ODg5MDkuMDAxNjk3LCJuYmYiOjE2MzA0ODg5MDkuMDAxNzAxLCJleHAiOjE2NjIwMjQ5MDguOTk1NjA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AsX2tT4eTH7nvbkeDjGRq1oJTeZnUD8xMFAnc7XZ3BpyUfTibxcZckEx6anigUx3SAMi7tT-UjeSijYYhj3UZOwbqQhjGFZW-ugkmSxxmI3SKIrex5032a0XzpvRU6mT8zfT-ztYuWAG3EBSfiZwN1Bn-Dv973WUib-f6EmCDtJwxGsomTaaVYwZN0ChPAOwGn0EMzXwZPzG6mM_hHJbHEH5WPe9r0ITtRJB0J3bKzV534CYLMKh9DboLYeSz-J7rFGoxWYPpgsnqx_2ZyxO4i0VL1KXGVzScI-3Et5icmOEvd1BVuN4WYlcET_U1ic2ffZgtDpyif91GdwaMCMqINcd6vPxgYUUzgC2Q4JSLyb3hlbiIHTvDeBSbzVXWGoFxIyBR0Ma9jQUzdpfpgcmXYmrh8QUSzT4w24M5UwvvWeNqC8Xq1KM2sFASuUCFhq9kinC1M0FyYnMssWYzEag-HzYRg0euWinkiH6TLPV1RfG3FADDopyAX5qw7wnU2s0_EldIwxfshE1cVBlF1WBByVpLWHbO3WrFkGC6JZapZWDeHyMIYd1WvqJZWS44gzpHfk9Y-sRKvhYdnJCkWaiU_pEPfAWgSjJdTieZCmf44XhZprpPYcSs2-cLxf0O994zi2XwCW-_lYKvKrCwfZ_riLk-rBxWLo5BFctdqRQOn0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/viewCart",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"viewCart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete cart",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/deleteCart/61",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"deleteCart",
+						"61"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cart count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTNmMDg4NzkzZTJjNDgwOGY2MDVhNGRkMjZlYzIwY2NhN2FhNjQwYjI2MzA2YmMxNzYxNDMyYzgxNjFlMzNjOTY0ZWVmOGQ0NjQ1NDY0YTMiLCJpYXQiOjE2MzA0ODg5MDkuMDAxNjk3LCJuYmYiOjE2MzA0ODg5MDkuMDAxNzAxLCJleHAiOjE2NjIwMjQ5MDguOTk1NjA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AsX2tT4eTH7nvbkeDjGRq1oJTeZnUD8xMFAnc7XZ3BpyUfTibxcZckEx6anigUx3SAMi7tT-UjeSijYYhj3UZOwbqQhjGFZW-ugkmSxxmI3SKIrex5032a0XzpvRU6mT8zfT-ztYuWAG3EBSfiZwN1Bn-Dv973WUib-f6EmCDtJwxGsomTaaVYwZN0ChPAOwGn0EMzXwZPzG6mM_hHJbHEH5WPe9r0ITtRJB0J3bKzV534CYLMKh9DboLYeSz-J7rFGoxWYPpgsnqx_2ZyxO4i0VL1KXGVzScI-3Et5icmOEvd1BVuN4WYlcET_U1ic2ffZgtDpyif91GdwaMCMqINcd6vPxgYUUzgC2Q4JSLyb3hlbiIHTvDeBSbzVXWGoFxIyBR0Ma9jQUzdpfpgcmXYmrh8QUSzT4w24M5UwvvWeNqC8Xq1KM2sFASuUCFhq9kinC1M0FyYnMssWYzEag-HzYRg0euWinkiH6TLPV1RfG3FADDopyAX5qw7wnU2s0_EldIwxfshE1cVBlF1WBByVpLWHbO3WrFkGC6JZapZWDeHyMIYd1WvqJZWS44gzpHfk9Y-sRKvhYdnJCkWaiU_pEPfAWgSjJdTieZCmf44XhZprpPYcSs2-cLxf0O994zi2XwCW-_lYKvKrCwfZ_riLk-rBxWLo5BFctdqRQOn0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/viewCartCount",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"viewCartCount"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZGUwZWI5ZTQ4MmZiOWVkM2I0YjNlYjI1MmM3NTgyNjNhNmMzNDgyZmVmNjI3MjAwMWIzNzIzZDY0OWQwYTNhNTBlNTc4ZWRkZTQ5MDZiZTMiLCJpYXQiOjE2MzAzOTE1ODEuMzAzMzc4LCJuYmYiOjE2MzAzOTE1ODEuMzAzMzgyLCJleHAiOjE2NjE5Mjc1ODEuMjk3NjI1LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.EyVA-V_N3zc15CaJsWyngdXJ4egxXUZEd5jQL7bZRIlpl18bj0WvyHLEIQxRH2INIbJxMphUarmMaGgyCfu_BprrC1lrAJ3LU8Cl3FrLzwjmKvD-9piurjpe_j2I4HXehhPjtWrHlFjg5sytJkPvLGGpBhYTitwPIgAtsJgKqCvmg9kG8zPJ6LiRr1Gi4VGkdz3VwZNEgEX58tMbLnTvjgdmtfq0RD0w0SCPHeVLrk7Rnqij7wGpT57SwL3si8hHoW5huJCotOjhBvuodGc3zAz-qBewqF9KoTOsamNxbkop7iHk2akPnnOVCkNxKTNpTq1O9-xVfSRxQJVjeBMkbowvDwp-j3j-KsIR6b22kFsXwNTWFnOWkFUMCbwyNrZBJE5kdpwB3J6yOiVTPYg5JXWr2Epbhk012Vo_PtZYoiFxco9kfxUHxz3DXbQiobJH7CPFBLpZOWsPtr5YiF6uZW6whW4OA1HEH1GQY5onOSD8nIv2QIO4azSgGay4-CAKFDWNwh1Z-aUCCphMXbc38TANFbJo5__6Pojapd6Rqb_lKrJdRKfmFCmhz61PvqDQ1g0ejQ8iF_uEQ8CIdzu_ByAwh61VWB4JpNFQ_TKWEAbEld7Hc_gUjo2VavlB_6_RHkV1EOoxws4Dy3rhGKrqLIGapyLzs56QLclWLPbu12c",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"food_id\":1,\r\n    \"rating\":4,\r\n    \"review\":\"nice\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/rate",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"rate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "place order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMTNmMDg4NzkzZTJjNDgwOGY2MDVhNGRkMjZlYzIwY2NhN2FhNjQwYjI2MzA2YmMxNzYxNDMyYzgxNjFlMzNjOTY0ZWVmOGQ0NjQ1NDY0YTMiLCJpYXQiOjE2MzA0ODg5MDkuMDAxNjk3LCJuYmYiOjE2MzA0ODg5MDkuMDAxNzAxLCJleHAiOjE2NjIwMjQ5MDguOTk1NjA1LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.AsX2tT4eTH7nvbkeDjGRq1oJTeZnUD8xMFAnc7XZ3BpyUfTibxcZckEx6anigUx3SAMi7tT-UjeSijYYhj3UZOwbqQhjGFZW-ugkmSxxmI3SKIrex5032a0XzpvRU6mT8zfT-ztYuWAG3EBSfiZwN1Bn-Dv973WUib-f6EmCDtJwxGsomTaaVYwZN0ChPAOwGn0EMzXwZPzG6mM_hHJbHEH5WPe9r0ITtRJB0J3bKzV534CYLMKh9DboLYeSz-J7rFGoxWYPpgsnqx_2ZyxO4i0VL1KXGVzScI-3Et5icmOEvd1BVuN4WYlcET_U1ic2ffZgtDpyif91GdwaMCMqINcd6vPxgYUUzgC2Q4JSLyb3hlbiIHTvDeBSbzVXWGoFxIyBR0Ma9jQUzdpfpgcmXYmrh8QUSzT4w24M5UwvvWeNqC8Xq1KM2sFASuUCFhq9kinC1M0FyYnMssWYzEag-HzYRg0euWinkiH6TLPV1RfG3FADDopyAX5qw7wnU2s0_EldIwxfshE1cVBlF1WBByVpLWHbO3WrFkGC6JZapZWDeHyMIYd1WvqJZWS44gzpHfk9Y-sRKvhYdnJCkWaiU_pEPfAWgSjJdTieZCmf44XhZprpPYcSs2-cLxf0O994zi2XwCW-_lYKvKrCwfZ_riLk-rBxWLo5BFctdqRQOn0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"payment_id\":\"dvdgfg\",\r\n    \"payment_type\":\"Online\",\r\n    \"payable_price\":250,\r\n    \"shipping_pincode\":\"37001\",\r\n    \"shipping_address\":\"Bhuj\",\r\n    \"order_note\":\"abcde\",\r\n    \"vendor_id\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://meatzone.seomantras.in/api/customer/placeOrder",
+					"protocol": "http",
+					"host": [
+						"meatzone",
+						"seomantras",
+						"in"
+					],
+					"path": [
+						"api",
+						"customer",
+						"placeOrder"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
@@ -8,6 +8,9 @@ import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
 import { Image } from 'react-native';
 // import Flag from 'react-native-flags';
+import api from '../utils/vendorApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -18,12 +21,14 @@ class LoginScreen extends React.Component {
     this.state = {
       cca2 : 'IN',
       callingCode: '+91',
-      modalVisible: false
+      modalVisible: false,
+      loading: false
     }
   }
 
   componentDidMount = async () => {
-
+    const { route } = this.props;
+    // alert(JSON.stringify(route));
   }
 
 
@@ -68,13 +73,34 @@ class LoginScreen extends React.Component {
 
 
   checkValues = async (values) => {
+    const { navigation} = this.props;
     try {
       const user = {
-        userID: values.userID,
-        loginPassword: values.password
+        phone: values.phoneNum,
       };
-      this.getCorrectPassword();
-
+      // alert(values.phoneNum);
+      // this.getCorrectPassword();
+      this.setState({
+        loading: true
+      });
+      const res = await api.post('/sendOtp',{ phone : values.phoneNum}).then((d)=> {
+        // alert(JSON.stringify(d));
+        return d;
+      });
+      
+      // alert(JSON.stringify(res));
+      const userData = JSON.stringify(res.data.user);
+      // alert(JSON.stringify(userData));
+      
+      await AsyncStorage.setItem('userData', userData).then((data)=> {
+        this.setState({
+          loading: false
+        });
+        
+        navigation.navigate('OTPPage');
+      });
+      // navigation.navigate('OTPPage');
+      
     } catch (e) {
       console.log(e);
       this.getWrongPassword(e);
@@ -97,18 +123,20 @@ class LoginScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { modalVisible, callingCode, cca2 } = this.state;
+    const { modalVisible, callingCode, cca2, loading } = this.state;
     return (
-
+      <View style={{flex:1}}>
+      {loading && <View style={{position:'absolute',zIndex:1,height:'100%',width:'100%',justifyContent:'center'}}>
+              
+               <ActivityIndicator size="large" color="red" />
+              </View>}
       <Formik
         initialValues={{
-          userID: '', password: '',
+          phoneNum: '',
         }}
         validationSchema={Yup.object({
-          userID: Yup.string()
-            .required('enter username'),
-          password: Yup.string()
-            .required('enter password'),
+          phoneNum: Yup.string()
+            .required('Enter Phone Number'),
         })}
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
@@ -120,15 +148,16 @@ class LoginScreen extends React.Component {
           const {
             setFieldValue, setValues
           } = props;
-          const getPhoneValue = (value, userID) => {
+          const getPhoneValue = (value, number) => {
             setFieldValue(
-              'userID', value + userID)
+              'phoneNum', number)
           }
 
           return (
 
             <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#ffe9c9', padding: 20,justifyContent:'space-between' }}>
-              <View style={{ flex: 4, backgroundColor: 'grey', backgroundColor: '#ffe9c9' }} >
+              <View style={{ flex: 3, backgroundColor: 'grey', backgroundColor: '#ffe9c9' }} >
+              <Image style={{width:200,height:200,alignSelf:'center',justifyContent:'center',borderRadius:50}} source={require('../assets/AppIcons/web_hi_res_512.png')} />
 
               </View>
               <View style={{ flex: 2, backgroundColor: '#ffe9c9', flexDirection: 'row' }} >
@@ -170,7 +199,7 @@ class LoginScreen extends React.Component {
                   />
                   <Image style={{position:'absolute',zIndex:-10,height:800,width:800,marginLeft:-200,marginTop:-250,opacity:0.5}}  resizeMode={'contain'} source={require('../assets/images/chicken.jpeg')} />
 
-                  <TouchableOpacity onPress={() => navigation.navigate('OTPPage')} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center' }}>
+                  <TouchableOpacity onPress={props.handleSubmit} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center' }}>
                     <Text style={{ color: 'white', textAlign: 'center' }}>Get OTP</Text>
                   </TouchableOpacity>
                 </View>
@@ -180,6 +209,7 @@ class LoginScreen extends React.Component {
           )
         }}
       </Formik>
+      </View>
     );
 
   }

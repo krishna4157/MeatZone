@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
@@ -8,6 +8,8 @@ import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
 // import Flag from 'react-native-flags';
 import CodeInput from 'react-native-confirmation-code-input';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../utils/vendorApi';
 
 
 
@@ -17,13 +19,58 @@ class OTPScreen extends React.Component {
     super(props);
     this.state = {
       isPasswordVisible: false,
-      modalVisible: false
+      modalVisible: false,
+      loading: false
     }
   }
 
   componentDidMount = async () => {
-
+    const data = await AsyncStorage.getItem('userData');
+    alert(data);
   }
+
+  checkOtp = async (values) => {
+    const { navigation, correctOtp, userId } = this.props;
+    try {
+      const user = {
+        "user_id": userId,
+    "otp": values.otp, 
+      };
+
+      this.setState({
+        loading: true
+      })
+      await AsyncStorage.setItem('accessToken',"");
+
+
+      // alert(values.otp);
+      // this.getCorrectPassword();
+      const res = await api.post('/verifyOtp',user).then((d)=> {
+        // alert(JSON.stringify(d));
+        return d;
+      });
+      this.setState({
+        loading: false
+      })
+      
+      alert(JSON.stringify(res));
+      // res.data.access_token
+      // const userData = JSON.stringify(res.data.user);
+      // alert(JSON.stringify(userData));
+      await AsyncStorage.setItem('accessToken', res.data.access_token).then((data)=> {
+        alert(JSON.stringify(res.data.access_token));
+      navigation.navigate('IntroPage')
+      });
+      // navigation.navigate('OTPPage');
+      
+  } catch (e) {
+    this.setState({
+      loading: false
+    })
+    
+    console.log(e);
+  }
+}
 
 
 
@@ -33,22 +80,25 @@ class OTPScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { modalVisible } = this.state;
+    const { modalVisible, loading } = this.state;
     return (
-
+      <View style={{flex:1}}>
+        {loading && <View style={{position:'absolute',zIndex:1,height:'100%',width:'100%',justifyContent:'center'}}>
+              
+              <ActivityIndicator size="large" color="red" />
+             </View>}
       <Formik
         initialValues={{
-          userID: '', password: '',
+          otp: '',
         }}
         validationSchema={Yup.object({
-          userID: Yup.string()
+          otp: Yup.string()
             .required('enter username'),
-          password: Yup.string()
-            .required('enter password'),
+         
         })}
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
-            this.checkValues(values);
+            this.checkOtp(values);
             formikActions.setSubmitting(false);
           }, 500);
         }}>
@@ -56,9 +106,9 @@ class OTPScreen extends React.Component {
           const {
             setFieldValue, setValues
           } = props;
-          const getPhoneValue = (value, userID) => {
+          const getOtpValue = (otp) => {
             setFieldValue(
-              'userID', value + userID)
+              'otp', otp)
           }
 
           return (
@@ -84,7 +134,9 @@ class OTPScreen extends React.Component {
               <View style={{ flex: 0.8, flexDirection: 'row' }} >
 
                 <CodeInput
-                  onFulfill={() => { }}
+                  onFulfill={(data) => {
+                    getOtpValue(data);
+                   }}
                   //   ref="codeInputRef2"
                   keyboardType="numeric"
                   codeLength={4}
@@ -93,7 +145,7 @@ class OTPScreen extends React.Component {
                   inactiveColor={'grey'}
                   activeColor={'grey'}
                   //   className='border-circle'
-                  compareWithCode='1234'
+                  // compareWithCode='1234'
                   autoFocus={false}
                   codeInputStyle={{ fontSize: 30, color: 'black', fontWeight: 'bold' }}
                 //   onFulfill={(isValid, code) => this._onFinishCheckingCode2(isValid, code)}
@@ -110,7 +162,7 @@ class OTPScreen extends React.Component {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('IntroPage')} style={{ width: '100%', backgroundColor: 'red', padding: 15, borderRadius: 15 }}>
+                <TouchableOpacity onPress={props.handleSubmit} style={{ width: '100%', backgroundColor: 'red', padding: 15, borderRadius: 15 }}>
                   <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'white' }}>Verify Now</Text>
                 </TouchableOpacity>
               </View>
@@ -119,6 +171,7 @@ class OTPScreen extends React.Component {
           )
         }}
       </Formik>
+      </View>
     );
 
   }

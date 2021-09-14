@@ -4,22 +4,34 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class OtpPage extends React.Component {
    state={
-
+     correctOtp : '',
+     userId : ''
    };
 
 
    
-   async componentDidMount() {
-     
+   componentDidMount() {
+    this.renderData();
+   }
+
+   renderData = async () => {
+    const savedData = await AsyncStorage.getItem('userData');
+    const data = JSON.parse(savedData);
+    this.setState({
+      correctOtp : data.otp,
+      userId : data.id
+    })
    }
 
     render() {
       const {navigation} = this.props;
+      const { correctOtp,userId } = this.state;
       return (
-        <OTPScreen navigation={navigation} />
+        <OTPScreen userId={userId} correctOtp={correctOtp} navigation={navigation} />
       );
     }
   }
