@@ -9,6 +9,8 @@ import HomePage from './HomePage';
 import AppDrawer from './AppDrawer';
 import EditProfilePage from './EditProfilePage';
 import VendorDrawer from './VendorDrawer';
+import ChooseTypePage from './ChooseTypePage';
+import RenderInitialPage from './renderInitialPage';
 export const navigationRef = React.createRef();
 
 
@@ -20,6 +22,8 @@ export default function Container() {
             <Stack.Navigator screenOptions={{
                 headerShown: false,
             }} >
+                <Stack.Screen  name="RenderInitialPage" component={RenderInitialPage} />
+                <Stack.Screen  name="ChooseTypePage" component={ChooseTypePage} />
                 <Stack.Screen  name="LoginPage" component={LoginPage} />
                 <Stack.Screen  name="OTPPage" component={OtpPage} />
                 <Stack.Screen  name="IntroPage" component={IntroPage} />

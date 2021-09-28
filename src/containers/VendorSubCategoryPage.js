@@ -3,11 +3,14 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LoginScreen from '../components/LoginScreen';
-import MainScreen from '../components/MainScreens';
 import OTPScreen from '../components/OTPScreen';
-import ProductOnFocusScreen from '../components/ProductOnFocusScreen';
+import Toast from 'react-native-toast-message';
+import VendorDetailsScreen from '../components/VendorDetailsScreen';
+import VendorCategoryScreen from '../components/VendorCategoryScreen';
+import VendorOrderScreen from '../components/VendorOrderScreen';
+import VendorSubCategoryScreen from '../components/VendorSubCategoryScreen';
 
-class ProductOnFocusPage extends React.Component {
+class   VendorSubCategoryPage extends React.Component {
    state={
 
    };
@@ -15,14 +18,14 @@ class ProductOnFocusPage extends React.Component {
 
    
    async componentDidMount() {
-     const  { route, navigation} = this.props;
-
+    
    }
 
     render() {
-      const {navigation, route} = this.props;
+      const {navigation,route} = this.props;
+      
       return (
-        <ProductOnFocusScreen route={route} navigation={navigation} />
+        <VendorSubCategoryScreen route={route} navigation={navigation} />
       );
     }
   }
@@ -30,7 +33,7 @@ class ProductOnFocusPage extends React.Component {
 
 
 
-export default ProductOnFocusPage;
+export default VendorSubCategoryPage;
 
   const styles = StyleSheet.create({
     container: {

@@ -1,24 +1,23 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView, Image, ActivityIndicator,TextInput } from 'react-native';
+import { Platform, StyleSheet, Text, View, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
 import { Card, Input, Item } from 'native-base';
 import { Entypo, EvilIcons, Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import api from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
-const keyInput1 = React.createRef();
+// const keyInput1 = React.createRef();
 
-class ShopScreen extends React.Component {
+class FavScreen extends React.Component {
     constructor(props) {
         super(props);
-        // this.russian = React.createRef();
+        // this.inputRef = React.createRef();
         this.state = {
           renderedData: [],
-          
           loading: false,
           autoFocus : true
         }
@@ -29,6 +28,7 @@ class ShopScreen extends React.Component {
     componentDidMount() {
         const { navigation} = this.props;
         // this.refs.nameref.focus();
+        this.renderSearchData();
 
         navigation.addListener('focus', () => {
             // Do whatever you want
@@ -36,19 +36,13 @@ class ShopScreen extends React.Component {
             // this.textInput.focus();
             // this.focus();
             // keyInput1.current.focus();
-            this.setState({
-            autoFocus : true
+            // this.setState({
+            // autoFocus : true
+            this.renderSearchData();
         })
-        setTimeout(() => {
-            // console.log(this.russian); 
-            // if(this.russian.current.focus()!= null){ 
-            // this.russian.current.focus();
-            // }
-            // console.log(this.russian);
-        }, 2000);
             // this.updateData();
             // this.updateCartCount();
-          });
+        //   });
         
     }
 
@@ -57,7 +51,7 @@ class ShopScreen extends React.Component {
         
         const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
         const res = await api.post(`/addToCart`, {
-                "product_id":value.id,
+                "product_id":value.product_id.id,
                 "quantity": 1
         },{
             headers: { 
@@ -74,14 +68,14 @@ class ShopScreen extends React.Component {
         });
     }
 
-    renderSearchData = async (value) => {
+    renderSearchData = async () => {
        const  { renderedData} = this.state;
        this.setState({
            loading: true
        });
-       try {
         const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
-        const res = await api.get(`/search/${value}`,{
+        console.log(retrieveAccessTocken);
+        const res = await api.get(`/favourites`,{
             headers: { 
                 'Access-Control-Allow-Origin': '*',
                 "Authorization": `Bearer ${retrieveAccessTocken}`,
@@ -89,22 +83,40 @@ class ShopScreen extends React.Component {
         });
         // increment();
         // http://meatzone.seomantras.in/api/customer
-        // alert(JSON.stringify(res.data.items));
+        // alert(JSON.stringify(res.data));
+
         this.setState({
-            renderedData : res.data.items
+            renderedData : res.data.wishlist
         })
         this.setState({
             loading: false
         });
-    } catch (e) {
-        this.setState({
-            renderedData : []
-        });
-        this.setState({
-            loading: false
-        });
     }
+
+    deleteAction = async(productId) => {
+ 
+        const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
+        this.setState({
+            loading : true
+        });
+        try {
+            const res = await api.delete(`/deleteFav/${productId}`,  {
+            headers: { 
+                'Access-Control-Allow-Origin': '*',
+                "Authorization": `Bearer ${retrieveAccessTocken}`,
+              },
+        });
+        this.renderSearchData();
+    } catch(e){
+        console.log(e);
     }
+    this.setState({
+        loading: false
+    });
+
+ 
+    }
+
 
     render() {
         const { navigation } = this.props;
@@ -117,44 +129,27 @@ class ShopScreen extends React.Component {
               <ActivityIndicator size="large" color="red" />
              </View>}
                 <View style={{ padding: 5 }} />
-                <Item style={{ borderBottomWidth: 0, backgroundColor: 'white', borderRadius: 20 }}>
-                    <Feather name="search" size={25} style={{ marginLeft: 5 }} />
-                    <Input
-                    // ref = {}
-                    name="russian"
-                    // ref={this.russian}
-    //   ref={ (input) => { this.focus = input }}
-      //   ref={ref => ref && this.setState({ref})}
-                        onChangeText={(val)=> this.renderSearchData(val)}
-                        autoFocus={true}
-                        focusable={true}
-                        // maxLength={10}
-                        placeholder={'Search for Item'}
-                        // keyboardType="number-pad"
-                        placeholderTextColor='#bdbdbd'
-                        style={{ color: 'black',padding:10 }}
-                    />
-                </Item>
               <View>
                         <View style={{ padding: 5 }} />
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', width: '100%', flexShrink: 1, flexWrap: 'wrap' }} >
                             {renderedData.map((value, index) => {
                                 return (
-                                    <Card style={{ padding: 0, width: '100%', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', flexDirection: 'column', borderRadius: 15 }}>
+                                    <Card style={{ padding: 0, width: '95%', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', flexDirection: 'column', borderRadius: 15 }}>
                                         <View style={{ flexWrap: 'wrap', justifyContent: 'center', borderRadius: 15, padding: 0 }}>
                                             <View style={{ flexDirection: 'column', width: '100%' }} >
-                                                <Image source={{uri: value.image}} style={{ height: 150, width: 350, alignSelf: 'center', borderRadius: 15 }} />
-                                                <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                                                <Image source={{uri: value.product_id.image}} style={{ height: 150, width: 350, alignSelf: 'center', borderRadius: 15 }} />
+                                                <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'center', alignItems: 'center',marginTop:10 }}>
                                                     <Text style={{ width: '85%', padding: 5, fontSize: 20 }}>
-                                                        {value.name}
+                                                        {value.product_id.name}
                                                     </Text>
-
-                                                    <TouchableOpacity style={{ alignSelf: 'center', marginLeft: 2, padding: 5 }}>
-                                                        <Entypo name="heart-outlined" color="red" size={20} />
-
-                                                    </TouchableOpacity>
+                                                    <View>
+                                                    <MaterialCommunityIcons 
+                                         style={{justifyContent:'center'}}
+                                    onPress={()=>this.deleteAction(value.id)} 
+                                    name="delete" size={30} color={"red"}/>
+                                                    </View>
                                                 </View>
-                                                <View style={{ flexDirection: 'column', padding: 5 }}>
+                                                {/* <View style={{ flexDirection: 'column', padding: 5 }}>
                                                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 5 }}>
                                                         <View style={{ flexDirection: 'row' }}>
                                                             <Ionicons name="location" size={10} style={{ textAlign: 'center', alignSelf: 'center' }} />
@@ -169,13 +164,13 @@ class ShopScreen extends React.Component {
                                                             <Text style={{ color: 'grey' }}>  4.8</Text>
                                                         </View>
                                                     </View>
-                                                </View>
+                                                </View> */}
                                                 <Item />
                                             </View>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', padding: 15 }}>
                                             <View>
-                                                <Text>{value.mrp_price} Rs</Text>
+                                                <Text>{value.product_id.mrp_price} Rs</Text>
                                             </View>
                                             <TouchableOpacity onPress={()=> this.addToCart(value)} style={{
                                                 width: 22,
@@ -203,4 +198,4 @@ class ShopScreen extends React.Component {
 
 
 
-export default ShopScreen;
+export default FavScreen;

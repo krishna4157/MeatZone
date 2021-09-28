@@ -13,20 +13,20 @@ import VendorShopPage from './VendorShopPage';
 import VendorDetailsPage from './VendorDetailsPage';
 import VendorEditShopPage from './VendorEditShopPage';
 import VendorShopBankDetailsPage from './VendorShopBankDetailsPage';
+import VendorSubCategoryPage from './VendorSubCategoryPage';
+import VendorSubCategoryCreatePage from './VendorSubCategoryCreatePage';
 export const navigationRef = React.createRef();
 
 
 const Stack = createNativeStackNavigator();
 
-export default function VendorShopStack() {
+export default function VendorSubCategoryStack() {
     return (
             <Stack.Navigator screenOptions={{
                 headerShown: false,
             }} >    
-            <Stack.Screen  options={{headerShown:true,title:'My Profile',headerTitleAlign:'center'}} name="VendorShopPage" component={VendorShopPage} />
-            <Stack.Screen  options={{headerShown:true,title:'My Details1',headerTitleAlign:'center'}} name="VendorDetailsPage" component={VendorDetailsPage} />
-            <Stack.Screen  options={{headerShown:true,title:'My Details1',headerTitleAlign:'center'}} name="VendorEditShopPage" component={VendorEditShopPage} />
-            <Stack.Screen  options={{headerShown:true,title:'My Details1',headerTitleAlign:'center'}} name="VendorShopBankDetailsPage" component={VendorShopBankDetailsPage} />
+            <Stack.Screen  options={{headerShown:true,title:'My Sub Categories',headerTitleAlign:'center'}} name="VendorSubCategoryPage" component={VendorSubCategoryPage} />
+            <Stack.Screen  options={{headerShown:true,title:'Create Sub Categories',headerTitleAlign:'center'}} name="VendorSubCategoryCreatePage" component={VendorSubCategoryCreatePage} />
             </Stack.Navigator>
     );
 }

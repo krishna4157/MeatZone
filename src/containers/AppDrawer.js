@@ -7,6 +7,9 @@ import { withNavigation } from 'react-navigation';
 import HomePage from './HomePage';
 import EditProfilePage from './EditProfilePage';
 import FAQPage from './FAQPage';
+import OrdersPage from './OrdersPage';
+import FavPage from './FavPage';
+import PaymentPage  from './PaymentPage';
 // export function openAppDrawer() {
 
 // }
@@ -30,7 +33,7 @@ function Article({navigation}) {
 
 const Drawer = createDrawerNavigator();
 
-function MyDrawer({route, navigation}) {
+function MyDrawer ({route, navigation}) {
     return (
     <Drawer.Navigator screenOptions={{gestureEnabled:false}} defaultStatus="closed" drawerContentOptions={{
         activeTintColor: '#e91e63',
@@ -41,6 +44,10 @@ function MyDrawer({route, navigation}) {
       <Drawer.Screen  options={{headerShown:false}} name="ArticlePage" initialParams={{...route.params}} component={HomePage} />
       <Drawer.Screen  options={{headerShown:false}} name="EditProfilePage" component={EditProfilePage} />
       <Drawer.Screen  options={{headerShown:false}} name="FAQPage" component={FAQPage} />
+      <Drawer.Screen  options={{headerShown:false}} name="OrdersPage" component={OrdersPage} />
+      <Drawer.Screen  options={{headerShown:true,title:'My Favorites'}} name="FavPage" component={FavPage} />
+      <Drawer.Screen  options={{headerShown:true,title:'Payment Gateway'}} name="PaymentPage" component={PaymentPage} />
+
       
     </Drawer.Navigator>
   );

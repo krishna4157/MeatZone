@@ -1,18 +1,21 @@
-export const increment = () => {
-    return {
+export const increment = (value) => {  
+  return {
       type: "INCREMENT",
+      cartItems : value
     };
   };
   
-  export const decrement = () => {
+  export const decrement = (value) => {
     return {
       type: "DECREMENT",
+      cartItems : value
     };
   };
   
-  export const reset = () => {
+  export const storeCount = (value) => {
     return {
-      type: "RESET",
+      type: "ITEMS_IN_CART",
+      cartItems : value
     };
   };
   

@@ -2,12 +2,13 @@ import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import CartScreen from '../components/CartScreen';
 import LoginScreen from '../components/LoginScreen';
-import MainScreen from '../components/MainScreens';
 import OTPScreen from '../components/OTPScreen';
-import ProductOnFocusScreen from '../components/ProductOnFocusScreen';
+import { increment, storeCount } from '../actions/counter';
+import PaymentScreen from '../components/PaymentScreen';
 
-class ProductOnFocusPage extends React.Component {
+class PaymentPage extends React.Component {
    state={
 
    };
@@ -15,22 +16,32 @@ class ProductOnFocusPage extends React.Component {
 
    
    async componentDidMount() {
-     const  { route, navigation} = this.props;
-
+     
    }
 
     render() {
-      const {navigation, route} = this.props;
+      const {navigation, storeCount, counter, route} = this.props;
       return (
-        <ProductOnFocusScreen route={route} navigation={navigation} />
+        <PaymentScreen storeCount={storeCount} route={route} navigation={navigation} />
       );
     }
   }
 
 
+  const mapStateToProps = state => ({
+    counter: state.counter,
+});
 
 
-export default ProductOnFocusPage;
+  const mapDispatchToProps = dispatch => bindActionCreators(
+    {
+        increment,
+        storeCount
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps,mapDispatchToProps)(PaymentPage);
 
   const styles = StyleSheet.create({
     container: {
@@ -49,3 +60,4 @@ export default ProductOnFocusPage;
         justifyContent: 'flex-end',
       }
   })
+

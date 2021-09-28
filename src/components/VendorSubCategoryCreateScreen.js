@@ -18,7 +18,7 @@ import SelectDropdown from 'react-native-select-dropdown'
 const countries = ["Egypt", "Canada", "Australia", "Ireland"]
 
 
-class VendorProductCreateScreen extends React.Component {
+class VendorSubCategoryCreateScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,9 +28,12 @@ class VendorProductCreateScreen extends React.Component {
       selling_price : '',
       weight : '',
       imageUri: '',
+      parent_id : '',
       loading : false,
       renderCategories : [],
       renderSubCategories: [],
+      name : '',
+      selectedCategory: ''
     }
   }
 
@@ -79,6 +82,8 @@ this.setState({
 
 
   renderCategories = async () => {
+    const { params}  = this.props;
+
     const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
     this.setState({
         loading : true
@@ -90,6 +95,15 @@ this.setState({
             "Authorization": `Bearer ${retrieveAccessTocken}`,
           },
     });
+    res.data.categories.map((value, index) => {
+        console.log(value);
+        // alert(JSON.stringify(params.id));
+        if(params!= undefined && value.parent_id == params.id) {
+            // alert(JSON.stringify(value));
+            this.setState({
+                selectedCategory : value
+            });
+        }})
     this.setState({
       renderSubCategories : res.data.categories,
         loading: false 
@@ -105,15 +119,16 @@ this.setState({
   }
 
   checkRenderUpdate= () => {
-    const { params}  = this.props;
-    if(params != undefined){
+    const { params, navigation} = this.props;
+
+     if(params != undefined){
     this.setState({
-      categoryName : params.itemName,
-      mrp_price : params.mrp_price,
-      selling_price: params.selling_price,
-      weight: params.weight,
-      imageUri : params.image
-    })
+      name : params.itemName,
+      imageUri : params.image,
+      parent_id : params.id
+    });
+
+    
     }
   }
 
@@ -153,7 +168,6 @@ this.setState({
     this.setState({
       loading : true
     });
-
     if(params!= undefined) {
       const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');    
     console.log("product access token : "+retrieveAccessTocken);
@@ -161,24 +175,14 @@ this.setState({
     if(!values.imageUri.includes("http")){
     body.append('image', {uri: values.imageUri, name: 'photo.jpg', type: 'image/jpeg'});
     }
+    body.append('parent_id', values.parent_id);
     body.append('name', values.name);
-    body.append('weight', values.weight);
-    body.append('selling_price', values.selling_price);
-    body.append('category_id', values.category_id);
-    body.append('sub_category_id', values.sub_category_id);  
-    body.append('mrp_price', values.mrp_price);
-    const obj  =  {
-    name : values.categoryName,
-    mrp_price : values.mrp_price,
-    imageUri: body,
-    weight: values.weight,
-    mrp_price: values.mrp_price,
-    selling_price: values.selling_price,
-
-    }
+    body.append('status', 'Active');
     console.log(body);
     try {
-    const res = await api.post(`/updateItem/${params.id}`,body, {
+    
+
+      const res = await api.post(`/categoryUpdate/${params.id}`,body, {
         headers: { 
             'Access-Control-Allow-Origin': '*',
             "Content-Type": "multipart/form-data",
@@ -193,8 +197,14 @@ this.setState({
     this.setState({
       moreData : res.data.more
     });
+    // alert('passed');
   } catch(e) {
     console.log(e);
+    this.setState({
+        loading: false
+    })
+    // alert(JSON.stringify(e));
+    
   }
     
 
@@ -204,25 +214,20 @@ this.setState({
     let body = new FormData();
     if(!values.imageUri.includes("http")){
       body.append('image', {uri: values.imageUri, name: 'photo.jpg', type: 'image/jpeg'});
-      }
-    // body.append('image', {uri: values.imageUri, name: 'photo.jpg', type: 'image/jpeg'});
+    }
+    body.append('parent_id', values.parent_id);
     body.append('name', values.name);
-    body.append('weight', values.weight);
-    body.append('selling_price', values.selling_price);
-    body.append('category_id', values.category_id);
-    body.append('sub_category_id', values.sub_category_id);
-
-    body.append('mrp_price', values.mrp_price);
+    body.append('status', 'Active');
     console.log(body);
     try {
-    const res = await api.post(`/addItem`,body, {
-        headers: { 
-            'Access-Control-Allow-Origin': '*',
-            "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${retrieveAccessTocken}`,
-          },
-    },
-      );
+        const res = await api.post(`/category`,body, {
+            headers: { 
+                'Access-Control-Allow-Origin': '*',
+                "Content-Type": "multipart/form-data",
+                "Authorization": `Bearer ${retrieveAccessTocken}`,
+              },
+        },
+          );
 
     this.setState({
       userData : res.data.user
@@ -230,8 +235,13 @@ this.setState({
     this.setState({
       moreData : res.data.more
     });
+    // alert('passed');
   } catch(e) {
+      this.setState({
+          loading: false
+      })
     console.log(e);
+    // alert(JSON.stringify(e));
   }
    
   }
@@ -288,7 +298,7 @@ this.setState({
 
   render() {
     const { navigation , params} = this.props;
-    const { modalVisible, categoryName, weight,imageUri,selling_price,mrp_price, loading, renderCategories, renderSubCategories } = this.state;
+    const { modalVisible, categoryName, weight,imageUri,selling_price,mrp_price, loading, renderCategories, selectedCategory, parent_id, renderSubCategories,name } = this.state;
 
     var radio_props = [
         {label: 'Active    ', value: 0 },
@@ -300,7 +310,7 @@ this.setState({
         <Formik
         enableReinitialize
         initialValues={{
-          name : categoryName, category_id : params!= undefined ? params.category_id : '', sub_category_id : params!= undefined ? params.sub_category_id : '',imageUri : imageUri,weight : weight,mrp_price : mrp_price,selling_price :selling_price
+            parent_id : params!= undefined ? params.parent_id : '',imageUri : imageUri,name : name
         }}
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
@@ -325,17 +335,17 @@ this.setState({
             
             // if (!result.cancelled) {
               // this.setState({
-              //   loading : true
+                // loading : true
               // });
               // this.setState({
-              //   imageUri : result.uri
+                // imageUri : result.uri
               // });
               setItemValue('imageUri',result.uri);   
               // this.setState({
-              //   loading : false
+                // loading : false
               // });           
           };
-
+          
           const setItemValue = (name,value) => {
             setFieldValue(
               name, value)
@@ -351,26 +361,15 @@ this.setState({
               <View style={{backgroundColor: '#ffe9c9', flexDirection: 'row',marginBottom:30 }} >
                 <View style={{ flex: 2, flexDirection: 'column',padding:10 }}>
                 <View style={{justifyContent:'center'}}>
-                    <Text style={{fontWeight:'bold',fontSize:18,padding:5,textAlign:"center"}}>CREATE PRODUCT SCREEN</Text>  
+                    <Text style={{fontWeight:'bold',fontSize:18,padding:5,textAlign:"center"}}>CREATE SUB CATEGORY SCREEN</Text>  
                 </View>
-
-                <View style={{flexDirection:'column',marginTop:20}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}> Name </Text>
-          <Item>
-          <Input  onChangeText={(value)=> {
-            setItemValue('name',value);
-          }} value={props.values.name} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} />
-          </Item>
-          </View>
-
-
                 <View style={{flexDirection:'column'}}>
           <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Select Category </Text>
           <Item>
-          <SelectDropdown
+<SelectDropdown
           defaultValue={renderCategories.find(val => {
-            // alert(JSON.stringify(val.id));
-            if( params!= undefined && val.id == params.category_id){
+            // alert(JSON.stringify(val));  
+            if( params!= undefined && val.id == params.parent_id){
                 return val;
               }})}
           buttonStyle={{width:'100%',borderRadius:15,backgroundColor:'white'}}
@@ -378,42 +377,7 @@ this.setState({
           renderCustomizedRowChild={this.renderDropDown}
 	data={renderCategories}
 	onSelect={(selectedItem, index) => {
-    setItemValue('category_id',selectedItem.id);
-		console.log(selectedItem, index);
-	}}
-	buttonTextAfterSelection={(selectedItem, index) => {
-		// text represented after item is selected
-		// if data array is an array of objects then return selectedItem.property to render after item is selected
-		return selectedItem.name;
-	}}
-	rowTextForSelection={(item, index) => {
-		// text represented for each item in dropdown
-		// if data array is an array of objects then return item.property to represent item in dropdown
-		return item.name;
-    
-	}}
-/>
-          </Item>
-          </View>
-          <View style={{flexDirection:'column'}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Select Sub Category </Text>
-          <Item>
-          {/* <Input value={props.values.categoryName} onChangeText={(value)=> {
-            setItemValue('categoryName',value);
-          }} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} /> */}
-          <SelectDropdown
-                    defaultValue={renderSubCategories.find(val => {
-                      if( params!= undefined && val.id == params.sub_category_id){
-                          return val;
-                        }})}
-          buttonStyle={{width:'100%',borderRadius:15,backgroundColor:'white'}}
-          dropdownStyle={{marginTop:-35}}
-          renderCustomizedRowChild={this.renderDropDown}
-	data={renderSubCategories}
-	onSelect={(selectedItem, index) => {
-
-    setItemValue('sub_category_id',selectedItem.id);
-
+        setItemValue('parent_id', selectedItem.id);
 		console.log(selectedItem, index)
 	}}
 	buttonTextAfterSelection={(selectedItem, index) => {
@@ -431,27 +395,11 @@ this.setState({
           </Item>
           </View>
           <View style={{flexDirection:'column',marginTop:20}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>MRP Price </Text>
-          <Item>
-          <Input  onChangeText={(value)=> {
-            setItemValue('mrp_price',value);
-          }} value={props.values.mrp_price} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} />
-          </Item>
-          </View>
-          <View style={{flexDirection:'column',marginTop:20}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Selling Price </Text>
+          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Name </Text>
           <Item>
           <Input onChangeText={(value)=> {
-            setItemValue('selling_price',value);
-          }} value={props.values.selling_price} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} />
-          </Item>
-          </View>
-          <View style={{flexDirection:'column',marginTop:20}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Weight </Text>
-          <Item>
-          <Input onChangeText={(value)=> {
-            setItemValue('weight',value);
-          }} value={props.values.weight} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} />
+            setItemValue('name',value);
+          }} value={props.values.name} style={{fontWeight:'bold',fontSize:18,padding:5,backgroundColor:'white',borderRadius:15}} />
           </Item>
           </View>
           <View style={{flexDirection:'column',marginTop:20}}>
@@ -462,21 +410,6 @@ this.setState({
               </TouchableOpacity>
               
           </View>
-          {/* <View style={{flexDirection:'column'}}>
-          <Text style={{fontWeight:'bold',fontSize:18,padding:5,marginTop:10}}>Status </Text>
-          <View style={{marginTop:10}}>
-          <RadioForm
-  radio_props={radio_props}
-  initial={0}
-  value
-  formHorizontal={true}
-  labelHorizontal={true}
-  buttonColor={'#2196f3'}
-  animation={true}
-  onPress={(value) => {this.setState({value:value})}}
-/>
-</View>
-        </View> */}
                   
                   <TouchableOpacity 
                   onPress={props.handleSubmit}
@@ -496,4 +429,4 @@ this.setState({
 }
 
 
-export default VendorProductCreateScreen;
+export default VendorSubCategoryCreateScreen;

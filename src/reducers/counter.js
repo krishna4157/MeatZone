@@ -6,6 +6,8 @@ const counterReducer = (state = 0, action) => {
         return state - 1;
       case "RESET":
         return (state = 0);
+      case "ITEMS_IN_CART":
+        return action.cartItems;
       default:
         return state;
     }

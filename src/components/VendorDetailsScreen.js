@@ -42,7 +42,6 @@ class VendorDetailsScreen extends React.Component {
           },
     });
 
-    alert(JSON.stringify(res.data));
     this.setState({
       userData : res.data.user
     });
@@ -61,7 +60,6 @@ class VendorDetailsScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -90,14 +88,7 @@ class VendorDetailsScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
-
-
-
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
     try {
       const data = {
         "name": values.fullName,
@@ -108,7 +99,6 @@ class VendorDetailsScreen extends React.Component {
         "longitude":"69.66265632536503"
     }
     const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
 
     } catch (e) {
       console.log(e);
@@ -210,9 +200,6 @@ class VendorDetailsScreen extends React.Component {
                          <Text style={{width:'30%',fontWeight:'bold'}}>About us</Text>
                          <Text style={{width:'70%'}}>{moreData.description}</Text>
                     </View>           
-                  <TouchableOpacity onPress={props.handleSubmit} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15,marginTop:40}}>
-                    <Text style={{ color: 'white', textAlign: 'center' }}>SAVE</Text>
-                  </TouchableOpacity>
                 </ScrollView>
 
           )

@@ -3,11 +3,12 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import LoginScreen from '../components/LoginScreen';
-import MainScreen from '../components/MainScreens';
 import OTPScreen from '../components/OTPScreen';
-import ProductOnFocusScreen from '../components/ProductOnFocusScreen';
+import Toast from 'react-native-toast-message';
+import ChooseTypeScreen from '../components/ChooseTypeScreen';
+import RenderInitialScreen from '../components/RenderInitialScreen';
 
-class ProductOnFocusPage extends React.Component {
+class RenderInitialPage extends React.Component {
    state={
 
    };
@@ -15,14 +16,14 @@ class ProductOnFocusPage extends React.Component {
 
    
    async componentDidMount() {
-     const  { route, navigation} = this.props;
-
+    
    }
 
     render() {
-      const {navigation, route} = this.props;
+      const {navigation,route} = this.props;
+      
       return (
-        <ProductOnFocusScreen route={route} navigation={navigation} />
+        <RenderInitialScreen route={route} navigation={navigation} />
       );
     }
   }
@@ -30,7 +31,7 @@ class ProductOnFocusPage extends React.Component {
 
 
 
-export default ProductOnFocusPage;
+export default RenderInitialPage;
 
   const styles = StyleSheet.create({
     container: {

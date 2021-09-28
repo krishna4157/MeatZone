@@ -21,9 +21,9 @@ class VendorProductCreatePage extends React.Component {
 
     render() {
       const {navigation,route} = this.props;
-      
+      // alert(JSON.stringify(route.params));
       return (
-        <VendorProductCreateScreen route={route} navigation={navigation} />
+        <VendorProductCreateScreen params={route.params} route={route} navigation={navigation} />
       );
     }
   }

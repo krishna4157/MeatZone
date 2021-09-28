@@ -23,6 +23,8 @@ import api from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const logoutFromApp = async () => {
+  await AsyncStorage.setItem('userData',"");
+  await AsyncStorage.setItem('type',"");
   const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
   const res = await api.get(`/logout`, {
       headers: { 
@@ -30,10 +32,39 @@ const logoutFromApp = async () => {
           "Authorization": `Bearer ${retrieveAccessTocken}`,
         },
   });
-  alert(JSON.stringify(res.data));
+  await AsyncStorage.setItem('userData',"");
+  await AsyncStorage.setItem('type',"");
 }
 
-const CustomSidebarMenu = (props) => {
+class CustomSidebarMenu extends React.Component  {
+  
+  state = {
+    name : '',
+    email : ''
+  }
+  
+  componentDidMount= async() => {
+    const  { navigation } = this.props;
+    const data = await AsyncStorage.getItem("userDetails");
+    const parsedData = JSON.parse(data);
+    this.setState({
+      name :  parsedData.user.name,
+      email : parsedData.user.email
+    })
+  navigation.addListener('focus', () => {
+      // Do whatever you want
+  const parsedData = JSON.parse(data);
+    this.setState({
+      name :  parsedData.user.name,
+      email : parsedData.user.email
+    })
+    });
+ 
+  }
+  
+  
+  render() {
+    const { name, email} = this.state;
   const BASE_PATH =
     'https://raw.githubusercontent.com/AboutReact/sampleresource/master/';
   const proileImage = 'react_logo.png';
@@ -51,20 +82,19 @@ const CustomSidebarMenu = (props) => {
         style={styles.sideMenuProfileIcon}
       />
       <View style={{flexDirection:'column',justifyContent:'center',marginLeft:15}}>
-          <Text style={{fontWeight:'bold',color:'white'}}>G Krishna Santosh</Text>
+          <Text style={{fontWeight:'bold',color:'white'}}>{name}</Text>
           <Text style={{color:'white'}}>developer</Text>
           </View>
       </View>
       </View>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView {...this.props}>
         {/* <DrawerItemList {...props} /> */}
         {/* <DrawerItem
           label="Visit Us"
           onPress={() => Linking.openURL('https://aboutreact.com/')}
         /> */}
         <TouchableOpacity onPress={()=>{
-          // alert(JSON.stringify(props));
-          props.navigation.navigate('EditProfilePage');
+          this.props.navigation.navigate('EditProfilePage');
         }} style={{flexDirection:'row',padding:20,backgroundColor:'white'}}>
         
         <FontAwesome name="user" size={30} />
@@ -74,8 +104,7 @@ const CustomSidebarMenu = (props) => {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={()=>{
-          // alert(JSON.stringify(props));
-          props.navigation.navigate('FAQPage');
+          this.props.navigation.navigate('FavPage');
         }} style={{flexDirection:'row',padding:20,backgroundColor:'white'}}>
         <View style={{flexDirection:'row',backgroundColor:'white'}}>
         
@@ -86,7 +115,19 @@ const CustomSidebarMenu = (props) => {
           </Text>
         </View>
         </TouchableOpacity>
-        <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
+        <TouchableOpacity onPress={()=>{
+          this.props.navigation.navigate('OrdersPage');
+        }} style={{flexDirection:'row',padding:20,backgroundColor:'white'}}>
+        <View style={{flexDirection:'row',backgroundColor:'white'}}>
+        
+        <MaterialIcons name="payments" size={30} />
+          <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
+            >
+            My Orders
+          </Text>
+        </View>
+        </TouchableOpacity>
+        {/* <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
         <MaterialIcons name="payment" size={30} />
           <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
             onPress={() => {
@@ -94,8 +135,8 @@ const CustomSidebarMenu = (props) => {
             }}>
             Payment method
           </Text>
-        </View>
-        <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
+        </View> */}
+        {/* <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
         <MaterialCommunityIcons name="brightness-percent" size={30} />
           <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
             onPress={() => {
@@ -103,10 +144,9 @@ const CustomSidebarMenu = (props) => {
             }}>
             Promotional code
           </Text>
-        </View>
+        </View> */}
         <TouchableOpacity onPress={()=>{
-          // alert(JSON.stringify(props));
-          props.navigation.navigate('FAQPage');
+          this.props.navigation.navigate('FAQPage');
         }} style={{flexDirection:'row',padding:20,backgroundColor:'white'}}>
         <MaterialCommunityIcons name="chat-alert-outline" size={30} />
           <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
@@ -114,7 +154,7 @@ const CustomSidebarMenu = (props) => {
             FAQ
           </Text>
         </TouchableOpacity>
-        <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
+        {/* <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
         <Ionicons name="ios-settings" size={30} />
           <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
             onPress={() => {
@@ -122,7 +162,7 @@ const CustomSidebarMenu = (props) => {
             }}>
             Settings
           </Text>
-        </View>
+        </View> */}
         <View style={{flexDirection:'row',padding:15,backgroundColor:'white'}}>
         <Entypo name="info-with-circle" size={30} />
           <Text style={{textAlign:'center',alignSelf:'center',marginLeft:15}}
@@ -133,11 +173,11 @@ const CustomSidebarMenu = (props) => {
           </Text>
         </View>
         <TouchableOpacity onPress={()=>{
-          // alert(JSON.stringify(props));
           logoutFromApp();
-          props.navigation.reset({
+          
+          this.props.navigation.reset({
             index: 0,
-            routes: [{ name: 'LoginPage' }]
+            routes: [{ name: 'RenderInitialPage' }]
        })
         }} style={{flexDirection:'row',padding:20,backgroundColor:'white'}}>
 
@@ -160,6 +200,7 @@ const CustomSidebarMenu = (props) => {
     </SafeAreaView>
   );
 };
+}
 
 const styles = StyleSheet.create({
   sideMenuProfileIcon: {

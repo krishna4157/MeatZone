@@ -17,7 +17,6 @@ export const navigationRef = React.createRef();
 const Stack = createNativeStackNavigator();
 
 export default function SearchPage({route, navigation}) {
-    	// alert(JSON.stringify(route));
         
     return (
             <Stack.Navigator initialRouteName="ProductOnHomePage" screenOptions={{

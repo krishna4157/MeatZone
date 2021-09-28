@@ -44,7 +44,6 @@ class VendorCategoryCreateScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -73,14 +72,10 @@ class VendorCategoryCreateScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
-
+  
 
 
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
     try {
       const data = {
         "name": values.fullName,
@@ -91,7 +86,6 @@ class VendorCategoryCreateScreen extends React.Component {
         "longitude":"69.66265632536503"
     }
     const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
 
     } catch (e) {
       console.log(e);

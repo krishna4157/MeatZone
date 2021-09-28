@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
@@ -8,7 +8,7 @@ import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
 import { Input, Item } from 'native-base';
 // import Flag from 'react-native-flags';
-import api from '../utils/api';
+import api from '../utils/vendorApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -23,18 +23,53 @@ class VendorDashBoardScreen extends React.Component {
       modalVisible: false,
       fullName : '',
       email : '',
-      phoneNumber : ''
+      phoneNumber : '',
+      totalOrder:'',
+      totalItems:'',
+      totalSubCat: '',
+      loading : false
     }
   }
 
   componentDidMount = async () => {
+    const { navigation} = this.props;
    const data = await AsyncStorage.getItem('userData');
+   this.renderDashBoardData();
+
     const res = JSON.parse(data);
     this.setState({
       fullName : res.name,
       email : res.email,
       phoneNumber : res.phone
     });
+    navigation.addListener('focus', () => {
+      // Do whatever you want
+      this.renderDashBoardData();
+                });
+    
+  }
+
+  renderDashBoardData = async() => {
+    this.setState({
+      loading: true
+    });
+    const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
+    const res = await api.get(`/myProfile`,{
+        headers: { 
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${retrieveAccessTocken}`,
+          },
+    });
+    this.setState({
+      totalOrder :res.data.totalOrder,
+      totalItems : res.data.totalItems,
+      totalSubCat : res.data.totalSubCat
+    });
+    this.setState({
+      loading: false
+    });
+    // alert(JSON.stringify(res.data.user));
+
   }
 
 
@@ -43,7 +78,6 @@ class VendorDashBoardScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -72,14 +106,10 @@ class VendorDashBoardScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
 
 
 
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
     try {
       const data = {
         "name": values.fullName,
@@ -90,7 +120,6 @@ class VendorDashBoardScreen extends React.Component {
         "longitude":"69.66265632536503"
     }
     const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
 
     } catch (e) {
       console.log(e);
@@ -114,37 +143,40 @@ class VendorDashBoardScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const { modalVisible, callingCode, cca2,fullName,email,phoneNumber } = this.state;
+    const { totalItems, totalOrder, totalSubCat, loading } = this.state;
     return (
         <View style={{flex:1,backgroundColor:'white',flexDirection:'column'}} >
-            <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20}} >
-                <TouchableOpacity style={{height:130,width:180,backgroundColor:'red',justifyContent:'center',borderRadius:10}}>
-                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>0</Text>
+          {loading && <View style={{ position: 'absolute', zIndex: 1, height: '100%', width: '100%', justifyContent: 'center' }}>
+
+<ActivityIndicator size="large" color="red" />
+</View>}
+            <View style={{flexDirection:'row',justifyContent:'flex-start',marginTop:10,padding:10}} >
+                <TouchableOpacity style={{height:130,width:180,backgroundColor:'#319EB5',justifyContent:'center',borderRadius:10,padding:10}}>
+                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>{totalItems}</Text>
                     <Text style={{textAlign:'center',alignSelf:'center'}}>Total Products</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{width:180,backgroundColor:'red',height:130,justifyContent:'center',borderRadius:10}}>
-                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>0</Text>
-                    <Text style={{textAlign:'center',alignSelf:'center'}}>Total Active Products</Text>
+                <TouchableOpacity style={{width:180,backgroundColor:'#3AA639',height:130,justifyContent:'center',borderRadius:10,padding:10,marginLeft:10}}>
+                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>{totalOrder}</Text>
+                    <Text style={{textAlign:'center',alignSelf:'center'}}>Total order</Text>
                 </TouchableOpacity>
             </View>
-            <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20}} >
-                <TouchableOpacity style={{height:130,width:180,backgroundColor:'red',justifyContent:'center',borderRadius:10}}>
-                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>0</Text>
-                    <Text style={{textAlign:'center',alignSelf:'center'}}>Total Inactive Products</Text>
+            <View style={{flexDirection:'row',justifyContent:'flex-start',marginTop:-5,padding:10}} >
+                <TouchableOpacity style={{height:130,width:180,backgroundColor:'#FEAE39',justifyContent:'center',borderRadius:10}}>
+                <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>{totalSubCat}</Text>
+                    <Text style={{textAlign:'center',alignSelf:'center'}}>total Sub Categories</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{width:180,backgroundColor:'red',height:130,justifyContent:'center',borderRadius:10}}>
+                {/* <TouchableOpacity style={{width:180,backgroundColor:'#ffe9c9',height:130,justifyContent:'center',borderRadius:10}}>
                 <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>0</Text>
                     <Text style={{textAlign:'center',alignSelf:'center'}}>Total Products List</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
-            <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20}} >
-            <TouchableOpacity style={{height:130,width:180,backgroundColor:'red',justifyContent:'center',borderRadius:10}}>
+            {/* <View style={{flexDirection:'row',justifyContent:'space-around',marginTop:20}} >
+            <TouchableOpacity style={{height:130,width:180,backgroundColor:'#ffe9c9',justifyContent:'center',borderRadius:10}}>
             <Text style={{textAlign:'center',alignSelf:'center',fontSize:25}}>0</Text>
                     <Text style={{textAlign:'center',alignSelf:'center'}}>Total Inactive Products</Text>
                 </TouchableOpacity>
                 <View style={{height:130,width:180,justifyContent:'center',borderRadius:10}} />
-                
-            </View>
+            </View> */}
             </View>
     );
 

@@ -8,7 +8,8 @@ import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
 import { Image } from 'react-native';
 // import Flag from 'react-native-flags';
-import api from '../utils/vendorApi';
+import api from '../utils/api';
+import vendorApi from '../utils/vendorApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
@@ -28,7 +29,6 @@ class LoginScreen extends React.Component {
 
   componentDidMount = async () => {
     const { route } = this.props;
-    // alert(JSON.stringify(route));
   }
 
 
@@ -37,7 +37,6 @@ class LoginScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -59,38 +58,17 @@ class LoginScreen extends React.Component {
       })
     }, 10000);
 
-
-
   }
 
-
-
-
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
-
-
-
-  checkValues = async (values) => {
+  checkApi = async (values) => {
     const { navigation} = this.props;
-    try {
-      const user = {
-        phone: values.phoneNum,
-      };
-      // alert(values.phoneNum);
-      // this.getCorrectPassword();
-      this.setState({
-        loading: true
-      });
-      const res = await api.post('/sendOtp',{ phone : values.phoneNum}).then((d)=> {
-        // alert(JSON.stringify(d));
-        return d;
-      });
-      
-      // alert(JSON.stringify(res));
-      const userData = JSON.stringify(res.data.user);
-      // alert(JSON.stringify(userData));
+
+    const type = await AsyncStorage.getItem('type');
+    if(type == 'vendor') {
+    const data = await vendorApi.post('/sendOtp',{ phone : values.phoneNum}).then((d)=> {
+    return d;
+  });
+  const userData = JSON.stringify(data.data.user);
       
       await AsyncStorage.setItem('userData', userData).then((data)=> {
         this.setState({
@@ -99,6 +77,40 @@ class LoginScreen extends React.Component {
         
         navigation.navigate('OTPPage');
       });
+ } else {
+    const data = await api.post('/sendOtp',{ phone : values.phoneNum}).then((d)=> {
+    return d;
+    });
+    const userData = JSON.stringify(data.data.user);
+      
+      await AsyncStorage.setItem('userData', userData).then((data)=> {
+        this.setState({
+          loading: false
+        });
+        
+        navigation.navigate('OTPPage');
+      });
+  }
+  }
+
+
+
+
+
+  checkValues = async (values) => {
+    const { navigation} = this.props;
+    const type = await AsyncStorage.getItem('type');
+    try {
+      const user = {
+        phone: values.phoneNum,
+      };
+      // this.getCorrectPassword();
+      this.setState({
+        loading: true
+      });
+     return this.checkApi(values);
+      
+      
       // navigation.navigate('OTPPage');
       
     } catch (e) {
@@ -155,12 +167,12 @@ class LoginScreen extends React.Component {
 
           return (
 
-            <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#ffe9c9', padding: 20,justifyContent:'space-between' }}>
-              <View style={{ flex: 3, backgroundColor: 'grey', backgroundColor: '#ffe9c9' }} >
+            <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#F7F7F7',justifyContent:'space-between' }}>
+              <View style={{ flex: 3, backgroundColor:'#FAF3EB',padding:20 }} >
               <Image style={{width:200,height:200,alignSelf:'center',justifyContent:'center',borderRadius:50}} source={require('../assets/AppIcons/web_hi_res_512.png')} />
 
               </View>
-              <View style={{ flex: 2, backgroundColor: '#ffe9c9', flexDirection: 'row' }} >
+              <View style={{ flex: 2, flexDirection: 'row' }} >
                 <View style={{ flex: 2, flexDirection: 'column',padding:10 }}>
                   <Text style={{ fontWeight: 'bold', fontSize: 25 }}>
                     Enter Mobile Number
@@ -197,7 +209,7 @@ class LoginScreen extends React.Component {
                     withCallingCode={true}
                     withEmoji={true}
                   />
-                  <Image style={{position:'absolute',zIndex:-10,height:800,width:800,marginLeft:-200,marginTop:-250,opacity:0.5}}  resizeMode={'contain'} source={require('../assets/images/chicken.jpeg')} />
+                  <Image style={{position:'absolute',zIndex:-10,height:800,width:800,marginLeft:-200,marginTop:-250,backgroundColor:'#ffe9c9',opacity:0.5}}  resizeMode={'contain'} source={require('../assets/images/chicken.jpeg')} />
 
                   <TouchableOpacity onPress={props.handleSubmit} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center' }}>
                     <Text style={{ color: 'white', textAlign: 'center' }}>Get OTP</Text>

@@ -68,7 +68,7 @@ function HomePage({ route, navigation}) {
           return ( 
           <Feather name="search" color={focused ? 'red' : 'black'} size={25} />);
         }
-    }} name="Settings" component={ShopScreen} />
+    }} name="ItemSearchPage" component={ShopScreen} />
     <Tab.Screen 
     initialParams={{...route.params}}
     options={{

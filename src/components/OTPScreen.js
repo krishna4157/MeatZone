@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
@@ -9,7 +9,11 @@ import PhNumberInput from './PhNumberInput';
 // import Flag from 'react-native-flags';
 import CodeInput from 'react-native-confirmation-code-input';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../utils/vendorApi';
+import api from '../utils/api';
+import vendorApi from '../utils/vendorApi';
+
+import Toast from 'react-native-toast-message';
+import { stubFalse } from 'lodash-es';
 
 
 
@@ -26,41 +30,108 @@ class OTPScreen extends React.Component {
 
   componentDidMount = async () => {
     const data = await AsyncStorage.getItem('userData');
-    alert(data);
+    const userData = await AsyncStorage.getItem('userData');
+    // alert(userData);
+    const parsedData1 = JSON.parse(userData);
+    const parsedData = JSON.parse(data);
+    Toast.show({
+      type: 'success',
+      text1: 'OTP Sent to Mobile Successfully',
+      // text2: 'This is some something 👋'
+    });
+    alert("Your OTP is "+parsedData.otp);
+
+  }
+
+  resendOtp = async () => {
+    this.setState({
+      loading: true
+    })
+    const { navigation} = this.props;
+    const userData = await AsyncStorage.getItem('userData');
+    const parsedData = JSON.parse(userData);
+    const type = await AsyncStorage.getItem('type');
+    if(type == 'vendor') {
+    const data = await vendorApi.post('/sendOtp',{ phone : parsedData.phone}).then((d)=> {
+    return d;
+  });
+  this.setState({
+    loading: false
+  })
+  alert("Your OTP is "+data.data.user.otp);
+
+  // alert(JSON.stringify());
+     
+ } else {
+
+    const data = await api.post('/sendOtp',{ phone : parsedData.phone}).then((d)=> {
+    return d;
+    });
+    const userData = JSON.stringify(data.data.user);
+    this.setState({
+      loading: false
+    })
+  alert("Your OTP is "+data.data.user.otp);
+
+    // alert(JSON.stringify(data.data.user.otp));
+        // navigation.navigate('OTPPage');
+      // });
+  }
+  }
+
+
+  checkApi = async (user) =>{
+    const { navigation} = this.props;
+
+    const type = await AsyncStorage.getItem('type');
+    if(type =="vendor") {
+      const data = await vendorApi.post('/verifyOtp',user).then((d)=> {
+      return d;
+    });
+    console.log(data.data.access_token);
+    // return data;
+    await AsyncStorage.setItem('accessToken', data.data.access_token).then((data)=> {
+      navigation.navigate('IntroPage')
+    });
+  } else {
+      const data = await api.post('/verifyOtp',user).then((d)=> {
+      return d;
+    });
+    console.log(data.data.access_token);
+
+    await AsyncStorage.setItem('accessToken', data.data.access_token).then((data)=> {
+      navigation.navigate('IntroPage')
+    });
+
+    // return data;
+  }
   }
 
   checkOtp = async (values) => {
     const { navigation, correctOtp, userId } = this.props;
+    const type = await AsyncStorage.getItem('type');
     try {
       const user = {
-        "user_id": userId,
-    "otp": values.otp, 
+        "user_id" : userId,
+        "otp" : values.otp, 
       };
 
       this.setState({
         loading: true
       })
       await AsyncStorage.setItem('accessToken',"");
-
-
-      // alert(values.otp);
-      // this.getCorrectPassword();
-      const res = await api.post('/verifyOtp',user).then((d)=> {
-        // alert(JSON.stringify(d));
-        return d;
+      this.setState({
+        loading: false
       });
+      this.checkApi(user); 
+      // const res = await this.checkApi(user);
       this.setState({
         loading: false
       })
-      
-      alert(JSON.stringify(res));
+      // console.log("original access token : "+res.data.access_token);
       // res.data.access_token
       // const userData = JSON.stringify(res.data.user);
-      // alert(JSON.stringify(userData));
-      await AsyncStorage.setItem('accessToken', res.data.access_token).then((data)=> {
-        alert(JSON.stringify(res.data.access_token));
-      navigation.navigate('IntroPage')
-      });
+      
       // navigation.navigate('OTPPage');
       
   } catch (e) {
@@ -157,7 +228,7 @@ class OTPScreen extends React.Component {
                   <Text>
                     Didnt recieve the OTP ?
                   </Text>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={this.resendOtp}>
                     <Text style={{ fontWeight: 'bold', color: 'red' }}> Resend OTP
                     </Text>
                   </TouchableOpacity>

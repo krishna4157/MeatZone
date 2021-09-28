@@ -19,24 +19,22 @@ class ProductOnFocusScreen extends React.Component {
 
 
     componentDidMount = async () => {
+        const  { route } = this.props;
         // const res = await api.get('/categories');
         const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
-        // alert(retrieveAccessTocken);
         this.setState({
             loading : true
         });
-        const res = await api.get(`/categories`, {
+        const res = await api.get(`/restaurantWithCategoryWiseItems/${route.params.id}`, {
             headers: { 
                 'Access-Control-Allow-Origin': '*',
                 "Authorization": `Bearer ${retrieveAccessTocken}`,
               },
         });
-        // alert(JSON.stringify(res.data));
         this.setState({
-            renderData : res.data.message,
+            renderData : res.data.itemsBySubCategory,
             loading: false 
         })
-        // alert(JSON.stringify(res.data));
         // this.setState({
         //     renderData : res.data.message 
         // })
@@ -80,7 +78,7 @@ class ProductOnFocusScreen extends React.Component {
         return (
             <ScrollView style={{ flex: 1, flexDirection: 'column', padding: 10 }}>
                 <View style={{ padding: 5 }} />
-                <Card style={{padding:10,borderRadius:20}}>
+                {/* <Card style={{padding:10,borderRadius:20}}>
                     <View style={{flex:1,flexDirection:'row',padding:10}}>
                         <View style={{flex:1.5}}>
                         <Image style={{width:70,height:70,alignSelf:'center',justifyContent:'center',borderRadius:50}} source={require('../assets/AppIcons/web_hi_res_512.png')} />
@@ -91,10 +89,10 @@ class ProductOnFocusScreen extends React.Component {
                             <Text>20 - 34 min</Text>
                         </View>
                     </View>
-                    </Card>
+                    </Card> */}
                 <Item style={{ borderBottomWidth: 0, backgroundColor: 'white', borderRadius: 20 }}>
                     <Input
-
+                        
                         autoFocus={true}
                         maxLength={10}
                         placeholder={'Search'}
@@ -106,7 +104,7 @@ class ProductOnFocusScreen extends React.Component {
 
                 </Item>
                     <View>
-                    <Text style={{padding:15,fontSize:22}}>Catergories</Text>
+                    <Text style={{padding:15,fontSize:22}}>Categories</Text>
                     {loading && <View style={{position:'absolute',zIndex:1,height:'100%',width:'100%',justifyContent:'center'}}>
               
               <ActivityIndicator size="large" color="red" />
@@ -114,10 +112,14 @@ class ProductOnFocusScreen extends React.Component {
                         <View style={{ padding: 5 }} />
                         <ScrollView contentContainerStyle={{ flexDirection: 'row', width: '100%', flexShrink: 1, flexWrap: 'wrap' }} >
                             {this.state.renderData != '' && this.state.renderData.map((value,index) => {
+                                console.log(JSON.stringify(value));
                                 return (
                                     <View style={{padding: 5, width: '33.33%', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap',flexDirection:'column' }}>
                                         <Card style={{flexWrap: 'wrap',justifyContent:'center',borderRadius:5,padding:0 }}>
-                                            <TouchableOpacity onPress={()=>navigation.navigate('ProductBasedPage',{ 'id' : value.id, 'itemName' : value.name })} style={{flexDirection:'column',width:'100%'}} >
+                                            <TouchableOpacity onPress={()=>{
+
+                                                navigation.navigate('ProductBasedPage',{ 'id' : value.id, 'itemName' : value.name, screen : 'fromRestaurant' })}
+                                             } style={{flexDirection:'column',width:'100%'}} >
                                             <Image source={{uri : value.image}} style={{ height: 50, width:70,alignSelf:'center',marginTop:10 }} />
                                             <View style={{flexDirection:'row',width:'100%',justifyContent:'center',alignItems:'center'}}>
                                                 <Text style={{width:'100%',padding:5,textAlign:'center'}}>

@@ -38,7 +38,6 @@ class VendorShopScreen extends React.Component {
               },
         });
 
-        alert(JSON.stringify(res.data));
         this.setState({
           userData : res.data.user
         });
@@ -61,7 +60,6 @@ class VendorShopScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -90,14 +88,11 @@ class VendorShopScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
+
 
 
 
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
     try {
       const data = {
         "name": values.fullName,
@@ -108,7 +103,6 @@ class VendorShopScreen extends React.Component {
         "longitude":"69.66265632536503"
     }
     const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
 
     } catch (e) {
       console.log(e);
@@ -171,7 +165,7 @@ class VendorShopScreen extends React.Component {
               <View style={{ flex: 2, backgroundColor: '#ffe9c9', flexDirection: 'row' }} >
                 <View style={{ flex: 2, flexDirection: 'column',padding:10 }}>
                 <View style={{justifyContent:'center'}}>
-                    <Text style={{fontWeight:'bold',fontSize:18,padding:5,textAlign:"center"}}>{moreData.restaurant_name}</Text>  
+                    <Text style={{fontWeight:'bold',fontSize:18,padding:5,textAlign:"center"}}>{userData.name}</Text>  
                 </View>
                 <View style={{flexDirection:'row',marginTop:20}}>
           <Text style={{fontWeight:'bold',fontSize:18,padding:5,width:'30%'}}>Phone </Text>
@@ -188,9 +182,9 @@ class VendorShopScreen extends React.Component {
                   <TouchableOpacity onPress={()=> navigation.navigate("VendorEditShopPage")} style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center',marginTop:40 }}>
                     <Text style={{ color: 'white', textAlign: 'center' }}>Edit Profile</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={()=> navigation.navigate("VendorShopBankDetailsPage")}   style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center',marginTop:40 }}>
+                  {/* <TouchableOpacity onPress={()=> navigation.navigate("VendorShopBankDetailsPage")}   style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center',marginTop:40 }}>
                     <Text style={{ color: 'white', textAlign: 'center' }}>Bank Details</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </View>

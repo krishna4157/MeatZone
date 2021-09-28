@@ -47,7 +47,7 @@ class App extends React.Component {
     return (
       <Provider store={store} >
       <SafeAreaView style={{flex:1}}>
-      <Toast ref={(ref) => Toast.setRef(ref)} style={{zIndex:10}} />
+      <Toast ref={(ref) => Toast.setRef(ref)} style={{zIndex:10,paddingTop:5}} />
       <Container  />
       </SafeAreaView>
       </Provider>

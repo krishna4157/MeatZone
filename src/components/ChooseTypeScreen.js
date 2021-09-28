@@ -8,13 +8,13 @@ import CountryPicker from 'react-native-country-picker-modal'
 import PhNumberInput from './PhNumberInput';
 import { Image } from 'react-native';
 // import Flag from 'react-native-flags';
-import api from '../utils/api';
+import api from '../utils/vendorApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
 
 
-class VendorMainScreen extends React.Component {
+class ChooseTypeScreen extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,7 +28,6 @@ class VendorMainScreen extends React.Component {
 
   componentDidMount = async () => {
     const { route } = this.props;
-
   }
 
 
@@ -64,12 +63,17 @@ class VendorMainScreen extends React.Component {
 
 
 
+
+
+
+
   checkValues = async (values) => {
     const { navigation} = this.props;
     try {
       const user = {
         phone: values.phoneNum,
       };
+      // this.getCorrectPassword();
       this.setState({
         loading: true
       });
@@ -108,6 +112,14 @@ class VendorMainScreen extends React.Component {
   }
 
 
+  setType = async (type) => {
+      const { navigation} = this.props;
+    await AsyncStorage.setItem('type', type).then((data)=> {
+        navigation.navigate('LoginPage');
+    });
+  }
+
+
   render() {
     const { navigation } = this.props;
     const { modalVisible, callingCode, cca2, loading } = this.state;
@@ -117,13 +129,33 @@ class VendorMainScreen extends React.Component {
               
                <ActivityIndicator size="large" color="red" />
               </View>}
-      <View style={{flex:1,backgroundColor:'red'}}>
-          </View>
-      </View>
+
+            <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#F7F7F7',justifyContent:'space-between' }}>
+              <View style={{ flex: 3, backgroundColor:'#FAF3EB',padding:20,justifyContent:'space-between' }} >
+              <Image style={{width:200,height:200,alignSelf:'center',justifyContent:'center',borderRadius:100,marginTop:100}} source={require('../assets/AppIcons/web_hi_res_512.png')} />
+              <TouchableOpacity 
+              onPress={()=> this.setType('customer')}
+                //   onPress={props.handleSubmit} 
+                  style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center',marginTop:100 }}>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>Customer</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+              onPress={()=> this.setType('vendor')}
+                //   onPress={props.handleSubmit} 
+                  style={{ borderRadius: 15, width: '95%', backgroundColor: 'red', padding: 15, alignSelf: 'center',marginTop:50 }}>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>Vendor</Text>
+                  </TouchableOpacity>
+              </View>
+              <View style={{ flex: 2, flexDirection: 'row' }} >
+                  <Image style={{position:'absolute',zIndex:-10,height:800,width:800,marginLeft:-200,marginTop:-250,backgroundColor:'#ffe9c9',opacity:0.5}}  resizeMode={'contain'} source={require('../assets/images/chicken.jpeg')} />
+                </View>
+              </View>
+            </View>
+
     );
 
   }
 }
 
 
-export default VendorMainScreen;
+export default ChooseTypeScreen;

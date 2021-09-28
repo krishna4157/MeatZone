@@ -8,18 +8,62 @@ import Toast from 'react-native-toast-message';
 import api from '../utils/vendorApi';
 
 // import
-export default class VendorProductScreen extends Component {
+export default class VendorSubCategoryScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableHead: ['Image', 'Name', 'Mrp Price', 'Selling Price','Category', 'Status', 'Action'],
+      tableHead: ['Image', 'Name','Category', 'Status', 'Action'],
       tableData: [
+        
       ],
       renderData : "",
       loading : false,
-      menuData: ""
+      menuData: "",
+      renderCategories : []
     }
   }
+
+  renderCategories = async () => {
+      const { menuData} = this.state;
+    const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
+    this.setState({
+        loading : true
+    });
+    try {
+    const res = await api.get(`/categories`, {
+        headers: { 
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${retrieveAccessTocken}`,
+          },
+    });
+    this.setState({
+      renderCategories : res.data.message,
+        loading: false 
+    });
+    var tableRows = [];
+    // alert(JSON.stringify(res.data.message));
+    
+    menuData.map((value, index)=> {
+
+        var item  = res.data.message.find(val => val.id == value.parent_id);
+        
+        var temp = [value.image,value.name,item!=undefined ? item.name : "null",value.status,""];
+        tableRows.push(temp);
+      });
+
+      this.setState({
+        tableData : tableRows
+      });
+
+} catch(e){
+    console.log(e);
+}
+this.setState({
+    loading: false
+});
+
+  }
+
 
   componentDidMount = async () => {
     const { navigation} = this.props;
@@ -46,33 +90,22 @@ export default class VendorProductScreen extends Component {
         // this.setState({
         //     loading : true
         // });
+        console.log(retrieveAccessTocken);
         try {
-        const res = await api.get(`/myMenu`, {
+        const res = await api.get(`/category`, {
             headers: { 
                 'Access-Control-Allow-Origin': '*',
                 "Authorization": `Bearer ${retrieveAccessTocken}`,
               },
         });
-        const res1 = await api.get(`/categories`, {
-          headers: { 
-              'Access-Control-Allow-Origin': '*',
-              "Authorization": `Bearer ${retrieveAccessTocken}`,
-            },
-      });
-        var tableRows = [];
+        // alert(JSON.stringify(res.data.menu));
         this.setState({
-          menuData : res.data.menu
+          menuData : res.data.categories
         });
-    res.data.menu.map((value, index)=> {
-      console.log(value);
-      var item  = res1.data.message.find(val => val.id == value.category_id);
-      var temp = [value.image,value.name,value.mrp_price,value.selling_price,item.name,value.status,""];
-      tableRows.push(temp);
-    });
-    this.setState({
-      tableData : tableRows
-    });
-    console.log(tableRows);
+        this.renderCategories();
+
+        // alert(JSON.stringify(res.data.categories));
+    
       } catch (e) {
       }
 
@@ -93,7 +126,7 @@ export default class VendorProductScreen extends Component {
         });
         const category_id = this.state.menuData[index].id;
         try {
-        const res = await api.delete(`/deleteItem/${category_id}`, {
+        const res = await api.delete(`/category/${category_id}`, {
             headers: { 
                 'Access-Control-Allow-Origin': '*',
                 "Authorization": `Bearer ${retrieveAccessTocken}`,
@@ -101,53 +134,6 @@ export default class VendorProductScreen extends Component {
         });
         this.refreshData();
       } catch (e) {
-      }
-
-      this.setState({
-        loading : false
-      })
-  }
-
-  changeStatus = async (value, index) => {
-    const {navigation} = this.props;
-    this.setState({
-      loading : true
-    })
-    const selectedItems = this.state.menuData[index];
-    // alert(JSON.stringify(selectedItems));
-    // await AsyncStorage.setItem('accessToken',"");
-    const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
-    console.log(retrieveAccessTocken);
-    console.log(selectedItems.id);
-       
-    this.setState({
-            loading : true
-        });
-        var body =null;
-        // alert(value);
-        if(value == "Active") {
-          body = 
-            {
-              status:"InActive"
-          }
-        } else {
-          body = 
-            {
-              status:"Active"
-          }
-        }
-        try {
-        const res = await api.post(`/updateItemStatus/${selectedItems.id}`,body,{
-            headers: { 
-                'Access-Control-Allow-Origin': '*',
-                "Authorization": `Bearer ${retrieveAccessTocken}`,
-              },
-        });
-        // alert(JSON.stringify(res.data));
-        this.refreshData();
-      } catch (e) {
-        // alert(JSON.stringify(e));
-      console.log(e);
       }
 
       this.setState({
@@ -167,8 +153,9 @@ export default class VendorProductScreen extends Component {
         });
         const selectedItems = this.state.menuData[index];
         try {
-          console.log("hello :"+JSON.stringify(selectedItems));
-          navigation.navigate('VendorProductCreatePage',{ 'sub_category_id' : selectedItems.sub_category_id,'category_id': selectedItems.category_id,'id' : selectedItems.id, 'parent_id' : selectedItems.id, 'itemName' : selectedItems.name, 'mrp_price' : selectedItems.mrp_price, 'selling_price' : selectedItems.selling_price, 'weight' : selectedItems.weight, 'update' : true, image : selectedItems.image });
+            // alert(JSON.stringify(selectedItems));
+            // alert(selectedItems.parent_id);
+          navigation.navigate('VendorSubCategoryCreatePage',{ 'id' : selectedItems.id,'parent_id' : selectedItems.parent_id , 'itemName' : selectedItems.name, 'update' : true, image : selectedItems.image });
         // const res = await api.delete(`/updateItem/${category_id}`, {
         //     headers: { 
         //         'Access-Control-Allow-Origin': '*',
@@ -176,7 +163,7 @@ export default class VendorProductScreen extends Component {
         //       },
         // });
         // this.refreshData();
-        // navigation.navigate()
+        navigation.navigate()
       } catch (e) {
       }
 
@@ -200,15 +187,6 @@ export default class VendorProductScreen extends Component {
     <MaterialCommunityIcons onPress={()=>this.deleteAction(index)} name="delete" size={30} color={"red"}/>
     </View>);
   }
-
-  renderStatus = (cellData, index) => {
-
-    return (<View style={{padding:10,flexDirection:'row',justifyContent:'space-around',width:140}}>
-    <TouchableOpacity onPress={()=>{ this.changeStatus(cellData,index)}} style={{backgroundColor:'red',padding:10,borderRadius:20,paddingLeft:10,paddingRight:10}} >
-      <Text style={{color:'white',fontWeight:'bold'}}>{'  '}{cellData}{'  '}</Text>
-      </TouchableOpacity>
-    </View>);
-  }
  
   render() {
     const state = this.state;
@@ -218,7 +196,7 @@ export default class VendorProductScreen extends Component {
               
               <ActivityIndicator size="large" color="red" />
              </View>}
-            <TouchableOpacity onPress={()=> this.props.navigation.navigate('VendorProductCreatePage')} style={{padding:15,backgroundColor:'blue',width:'30%',borderRadius:15,margin:10}}>
+            <TouchableOpacity onPress={()=> this.props.navigation.navigate('VendorSubCategoryCreatePage')} style={{padding:15,backgroundColor:'blue',width:'30%',borderRadius:15,margin:10}}>
                 <Text style={{textAlign:'center',color:'white'}}>CREATE</Text>
                 </TouchableOpacity>
       <ScrollView horizontal >
@@ -229,7 +207,7 @@ export default class VendorProductScreen extends Component {
               <TableWrapper key={index} style={styles.row}>
                 {
                   rowData.map((cellData, cellIndex) => (
-                    <Cell key={cellIndex} data={cellIndex === 0 ? this.renderImage(cellData, index) : cellIndex === 6  ? this.renderAction(cellData, index) : cellIndex == 5 ? this.renderStatus(cellData,index) : cellData} textStyle={styles.text}/>
+                    <Cell key={cellIndex} data={cellIndex === 0 ? this.renderImage(cellData, index) : cellIndex === 4  ? this.renderAction(cellData, index) :cellData} textStyle={styles.text}/>
                   ))
                 }
               </TableWrapper>

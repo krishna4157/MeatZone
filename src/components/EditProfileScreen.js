@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, ActivityIndicator } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-web';
 import * as Yup from 'yup';
@@ -10,6 +10,7 @@ import { Input, Item } from 'native-base';
 // import Flag from 'react-native-flags';
 import api from '../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 
 
@@ -18,16 +19,23 @@ class EditProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cca2 : 'IN',
-      callingCode: '+91',
-      modalVisible: false,
       fullName : '',
       email : '',
-      phoneNumber : ''
+      phoneNumber : '',
+      loading: false
     }
   }
 
   componentDidMount = async () => {
+    this.checkInitialValues();
+  }
+
+
+  checkInitialValues = async () => {
+    const { loading} = this.state;
+    this.setState({
+      loading: true
+    })
    const data = await AsyncStorage.getItem('userData');
     const res = JSON.parse(data);
     this.setState({
@@ -35,7 +43,29 @@ class EditProfileScreen extends React.Component {
       email : res.email,
       phoneNumber : res.phone
     });
+
+    this.setState({
+      loading: false
+    });
+    const result = {
+      fullName : res.name,
+      email : res.email,
+      phoneNumber : res.phone
+    }
+    return result;
   }
+
+
+  getValues = () => {
+   const { fullName, email, phoneNumber} = this.state;
+    const result = {
+      fullName : fullName,
+      email : email,
+      phoneNumber : phoneNumber
+    }
+    return result;
+  }
+
 
 
   getCorrectPassword = async () => {
@@ -43,7 +73,6 @@ class EditProfileScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -72,14 +101,16 @@ class EditProfileScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
+
 
 
 
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
+    const { navigation } = this.props;
+    const retrieveAccessTocken = await AsyncStorage.getItem('accessToken');
+    this.setState({
+      loading : true
+    })
     try {
       const data = {
         "name": values.fullName,
@@ -89,13 +120,29 @@ class EditProfileScreen extends React.Component {
         "latitude":"23.271342200671988 ",
         "longitude":"69.66265632536503"
     }
-    const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
+    const res = await api.post('/editProfile',data,
+      {
+        headers: { 
+            'Access-Control-Allow-Origin': '*',
+            "Authorization": `Bearer ${retrieveAccessTocken}`,
+          },
+    }
+    );
+
+    Toast.show({
+      type: 'success',
+      text1: 'Profile Updated Successfully',
+      // text2: 'This is some something 👋'
+    });
+    navigation.goBack();
 
     } catch (e) {
       console.log(e);
       this.getWrongPassword(e);
     }
+    this.setState({
+      loading: false
+    });
   }
 
   triggerModal = () => {
@@ -111,23 +158,31 @@ class EditProfileScreen extends React.Component {
     });
   }
 
+  setInitialValues = () => {
+    const initialValues = {
+        userName: '',
+        password: ''
+    };
+    return initialValues;
+}
+
 
   render() {
     const { navigation } = this.props;
-    const { modalVisible, callingCode, cca2,fullName,email,phoneNumber } = this.state;
+    const { modalVisible, callingCode, cca2,fullName,email,phoneNumber, loading } = this.state;
+    
     return (
 
       <Formik
-        initialValues={{
-          fullName: fullName, email: email,phoneNumber: phoneNumber
-        }}
+      enableReinitialize
+        initialValues={this.getValues()}
         validationSchema={Yup.object({
           fullName: Yup.string()
             .required('enter username'),
           email: Yup.string()
             .required('enter email'),
           phoneNumber: Yup.string()
-            .required('enter email'),  
+            .required('enter phone Number'),  
         })}
         onSubmit={(values, formikActions) => {
           setTimeout(() => {
@@ -147,6 +202,10 @@ class EditProfileScreen extends React.Component {
           return (
 
             <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#ffe9c9', padding: 20,justifyContent:'space-between' }}>
+              {loading && <View style={{position:'absolute',zIndex:1,height:'100%',width:'100%',justifyContent:'center'}}>
+              
+              <ActivityIndicator size="large" color="red" />
+             </View>}
               <View style={{ flex: 1, backgroundColor: 'grey', backgroundColor: '#ffe9c9',justifyContent:'center' }} >
                 <Image style={{width:200,height:190,alignSelf:'center',justifyContent:'center'}} source={require('../assets/AppIcons/web_hi_res_512.png')} />
               </View>
@@ -155,7 +214,7 @@ class EditProfileScreen extends React.Component {
                 <Text style={{fontWeight:'bold',fontSize:18,padding:5}}>Name </Text>
                   <Item style={{ borderBottomWidth: 0,backgroundColor:'white',borderRadius:10 }}>
             <Input
-              value={fullName}
+              value={props.values.fullName}
               autoFocus={true}
               // maxLength={10}
               placeholder={'Enter Full Name'}
@@ -163,9 +222,6 @@ class EditProfileScreen extends React.Component {
               placeholderTextColor='#bdbdbd'
               style={{ color: 'black' }}
               onChangeText={(value) => {
-                this.setState({
-                  phoneNumber: value
-                });
                 setItemValue('fullName',value);
               }}
             />
@@ -174,7 +230,7 @@ class EditProfileScreen extends React.Component {
           <Item style={{ borderBottomWidth: 0,backgroundColor:'white',borderRadius:10 }}>
             
             <Input
-            value={email}
+              value={props.values.email}
               autoFocus={true}
               // maxLength={10}
               placeholder={'Enter Email Address'}
@@ -182,9 +238,7 @@ class EditProfileScreen extends React.Component {
               placeholderTextColor='#bdbdbd'
               style={{ color: 'black' }}
               onChangeText={(value) => {
-                this.setState({
-                  phoneNumber: value
-                });
+                
                 setItemValue('email',value);
               }}
             />
@@ -193,7 +247,7 @@ class EditProfileScreen extends React.Component {
 
           <Item style={{ borderBottomWidth: 0,backgroundColor:'white',borderRadius:10 }}>
             <Input
-            value={phoneNumber}
+              value={props.values.phoneNumber}
               autoFocus={true}
               // maxLength={10}
               placeholder={'Enter Phone Number'}
@@ -201,9 +255,6 @@ class EditProfileScreen extends React.Component {
               placeholderTextColor='#bdbdbd'
               style={{ color: 'black' }}
               onChangeText={(value) => {
-                this.setState({
-                  phoneNumber: value
-                });
                 setItemValue('phoneNumber',value);
               }}
             />

@@ -6,8 +6,9 @@ import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
 import ShopScreen from '../components/ShopScreen';
 import { storeCount } from '../actions/counter';
+import FavScreen from '../components/FavScreen';
 
-class ShopPage extends React.Component {
+class FavPage extends React.Component {
    state={
 
    };
@@ -21,7 +22,7 @@ class ShopPage extends React.Component {
     render() {
       const {navigation, storeCount, counter} = this.props;
       return (
-        <ShopScreen navigation={navigation} storeCount={storeCount} counter={counter}/>
+        <FavScreen navigation={navigation} storeCount={storeCount} counter={counter}/>
       );
     }
   }
@@ -41,7 +42,7 @@ class ShopPage extends React.Component {
 
 
 
-  export default connect(mapStateToProps,mapDispatchToProps)(ShopPage);
+  export default connect(mapStateToProps,mapDispatchToProps)(FavPage);
 
 
-export default ShopPage;
+// export default FavPage;

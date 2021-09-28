@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import CartScreen from '../components/CartScreen';
 import LoginScreen from '../components/LoginScreen';
 import OTPScreen from '../components/OTPScreen';
+import { increment, storeCount } from '../actions/counter';
 
 class CartPage extends React.Component {
    state={
@@ -18,17 +19,30 @@ class CartPage extends React.Component {
    }
 
     render() {
-      const {navigation} = this.props;
+      const {navigation, storeCount, counter} = this.props;
       return (
-        <CartScreen navigation={navigation} />
+        <CartScreen storeCount={storeCount} navigation={navigation} />
       );
     }
   }
 
 
+  const mapStateToProps = state => ({
+    counter: state.counter,
+});
 
 
-export default CartPage;
+  const mapDispatchToProps = dispatch => bindActionCreators(
+    {
+        increment,
+        storeCount
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps,mapDispatchToProps)(CartPage);
+
+// export default ;
 
   const styles = StyleSheet.create({
     container: {

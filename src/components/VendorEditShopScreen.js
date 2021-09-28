@@ -51,7 +51,6 @@ class VendorEditShopScreen extends React.Component {
   });
 
 
-  alert(JSON.stringify(res.data));
   this.setState({
     fullName : res.data.more.restaurant_name,
     image :  res.data.more.restaurant_image,
@@ -69,7 +68,6 @@ class VendorEditShopScreen extends React.Component {
     // this.setState({
     //   statusColor: 'blue'
     // });
-    // alert('hello');
     // navigation.navigate("KycScreen");
 
   }
@@ -98,14 +96,7 @@ class VendorEditShopScreen extends React.Component {
 
 
 
-  onSubmit = (values) => {
-    alert(JSON.stringify(values));
-  }
-
-
-
   checkValues = async (values) => {
-    alert(JSON.stringify(values));
     try {
       const data = {
         "name": values.fullName,
@@ -116,7 +107,6 @@ class VendorEditShopScreen extends React.Component {
         "longitude":"69.66265632536503"
     }
     const res = await api.post('/editProfile',data);
-    alert(JSON.stringify(res.data));
 
     } catch (e) {
       console.log(e);

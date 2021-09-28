@@ -18,6 +18,9 @@ import VendorCategoryStack from './VendorCategoryStack';
 import VendorProductStack from './VendorProductStack';
 import VendorOrderPage from './VendorOrderPage';
 import VendorOrderStack from './VendorOrderStack';
+import VendorSubCategoryPage from './VendorSubCategoryPage';
+import VendorSubCategoryCreatePage from './VendorSubCategoryCreatePage';
+import VendorSubCategoryStack from './VendorSubCategoryStack';
 // import InitialVendorPage from './initialVendorPage';
 // export function openAppDrawer() {
 
@@ -58,6 +61,8 @@ function MyDrawer({route, navigation}) {
       <Drawer.Screen  options={{headerShown:false,title:'My Products',headerTitleAlign:'center'}} name="VendorProductStack" component={VendorProductStack} />
       <Drawer.Screen  options={{headerShown:false,title:'My Orders',headerTitleAlign:'center'}} name="VendorOrderStack" component={VendorOrderStack} />
       
+      <Drawer.Screen  options={{headerShown:false,title:'My Orders',headerTitleAlign:'center'}} name="VendorSubCategoryStack" component={VendorSubCategoryStack} />
+
       {/* <Drawer.Screen  options={{headerShown:false}} name="VendorFAQPage" component={FAQPage} /> */}
       
     </Drawer.Navigator>
